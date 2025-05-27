@@ -38,10 +38,10 @@ public class MailServiceImpl implements MailService {
   @Activate
   @Modified
   protected void activate(MailServiceConfig mailServiceConfig) {
-    fromAddress = "aryanchanana1111@gmail.com";
+    fromAddress = "tarunpratap3135@gmail.com";
     smtpHost = "smtp.gmail.com";
-    smtpUsername = "aryanchanana1111@gmail.com";
-    smtpPassword = "gtydbekjmzuzlbfd";
+    smtpUsername = "tarunpratap3135@gmail.com";
+    smtpPassword = "oukbpgdddewbyywu";
     smtpPort = 587;
   }
 
