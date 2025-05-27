@@ -52,21 +52,21 @@ public class MailServiceImpl implements MailService {
     MimeMessage mimeMessage;
 
     List<String> userEmail = getEmailsFromGroup(groupName, resourceResolver);
-//    if (userEmail != null && !userEmail.isEmpty()) {
-    mimeMessage = getMimeMessage(session, fromAddress, userEmail);
-    LOGGER.info("MimeMessage constructed successfully.");
+    if (userEmail != null && !userEmail.isEmpty()) {
+      mimeMessage = getMimeMessage(session, fromAddress, userEmail);
+      LOGGER.info("MimeMessage constructed successfully.");
 
-    mimeMessage.setSubject(subject);
-    LOGGER.debug("Subject set on email: {}", subject);
+      mimeMessage.setSubject(subject);
+      LOGGER.debug("Subject set on email: {}", subject);
 
-    mimeMessage.setContent(message, "text/html");
-    LOGGER.debug("Email content set as HTML.");
+      mimeMessage.setContent(message, "text/html");
+      LOGGER.debug("Email content set as HTML.");
 
-    sendMessage(session, mimeMessage);
-    LOGGER.info("Email sent");
-//    } else {
-//      throw new MessagingException("Group has either no user or associated user has no email");
-//    }
+      sendMessage(session, mimeMessage);
+      LOGGER.info("Email sent");
+    } else {
+      throw new MessagingException("Group has either no user or associated user has no email");
+    }
   }
 
   private Session getSession() {

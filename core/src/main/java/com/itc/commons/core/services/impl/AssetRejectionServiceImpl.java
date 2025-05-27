@@ -36,8 +36,8 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     private static final String ERROR_MISSING_INPUT = "error: Missing assetPath or reviewer";
     private static final String ERROR_ASSET_NOT_FOUND = "error: Asset not found at path: ";
     private static final String ERROR_PREFIX = "error: ";
-    private static final String REVIEWER_GROUP_A = "itc_asset_reviewer_group_1";
-    private static final String AGENCY_GROUP_A = "itc_asset_agency_group_1";
+    private static final String REVIEWER_GROUP_A = "Biscuits-Sunfeast-reviewer-group";
+    private static final String AGENCY_GROUP_A = "Biscuits-Sunfeast-agency-group";
     private static final String NULL_ERROR_PREFIX="null pointer exception seen";
 
     @Reference

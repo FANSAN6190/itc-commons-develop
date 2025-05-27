@@ -54,7 +54,7 @@ public class CustomEventListener implements ResourceChangeListener {
 
     @Override
     public void onChange(List<ResourceChange> changes) {
-        reviewerMap.put("itc_asset_agency_group_1","itc_asset_reviewer_group_1");
+        reviewerMap.put("Biscuits-Sunfeast-agency-group","Biscuits-Sunfeast-reviewer-group");
         Map<String, Object> params = new HashMap<>();
         params.put(ResourceResolverFactory.SUBSERVICE, SUBSERVICE_NAME);
 
@@ -79,7 +79,7 @@ public class CustomEventListener implements ResourceChangeListener {
                                 Iterator<Group> groups = user.memberOf();
                                 groups.next();
                                 if (groups.hasNext()) {
-                                    String reviewerGroupName = reviewerMap.get(groups.next().getID());
+                                    String reviewerGroupName = "Biscuits-Sunfeast-reviewer-group";//reviewerMap.get(groups.next().getID());
                                     logger.info("Reviewer Group ID : {}", reviewerGroupName);
                                     assetNotificationService.notifyNewAsset(reviewerGroupName, fullAssetUrl, resolver);
                                 }
