@@ -3,10 +3,7 @@ package com.itc.commons.core.services.impl;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import javax.jcr.RepositoryException;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
+import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -50,31 +47,26 @@ public class MailServiceImpl implements MailService {
 
 
   @Override
-  public void sendEmail(String groupName, ResourceResolver resourceResolver, String message, String subject) throws MessagingException {
+  public void sendEmail(String groupName, ResourceResolver resourceResolver, String message, String subject) throws MessagingException, UnsupportedEncodingException {
     Session session = getSession();
     MimeMessage mimeMessage;
 
-    try {
-      List<String> userEmail = getEmailsFromGroup(groupName,resourceResolver);
-        if (userEmail != null  &&  !userEmail.isEmpty()) {
-          mimeMessage = getMimeMessage(session, fromAddress, userEmail);
-          LOGGER.info("MimeMessage constructed successfully.");
+    List<String> userEmail = getEmailsFromGroup(groupName, resourceResolver);
+//    if (userEmail != null && !userEmail.isEmpty()) {
+    mimeMessage = getMimeMessage(session, fromAddress, userEmail);
+    LOGGER.info("MimeMessage constructed successfully.");
 
-          mimeMessage.setSubject(subject);
-          LOGGER.debug("Subject set on email: {}", subject);
+    mimeMessage.setSubject(subject);
+    LOGGER.debug("Subject set on email: {}", subject);
 
-          mimeMessage.setContent(message, "text/html");
-          LOGGER.debug("Email content set as HTML.");
+    mimeMessage.setContent(message, "text/html");
+    LOGGER.debug("Email content set as HTML.");
 
-          sendMessage(session, mimeMessage);
-          LOGGER.info("Email sent");
-        }
-        else {
-          throw new MessagingException("Group has either no user or associated user has no email");
-        }
-    } catch (MessagingException | UnsupportedEncodingException e) {
-      throw new MessagingException("There was an exception in sending the message : " + e.getMessage());
-    }
+    sendMessage(session, mimeMessage);
+    LOGGER.info("Email sent");
+//    } else {
+//      throw new MessagingException("Group has either no user or associated user has no email");
+//    }
   }
 
   private Session getSession() {
@@ -87,18 +79,18 @@ public class MailServiceImpl implements MailService {
     return Session.getDefaultInstance(props);
   }
 
-  private void sendMessage(Session session, MimeMessage msg) {
-    boolean status;
-    try {
+  private void sendMessage(Session session, MimeMessage msg) throws MessagingException {
+//    boolean status=false;
+//    try {
       Transport transport = session.getTransport();
       transport.connect(smtpHost, smtpUsername, smtpPassword);
       transport.sendMessage(msg, msg.getAllRecipients());
-      status = true;
-    } catch (MessagingException e) {
-      LOGGER.error("There was an exception in sending the message : {}", e.getMessage(), e);
-      status = false;
-    }
-    LOGGER.info("send message status '{}'",status);
+//      status = true;
+//    } catch (MessagingException e) {
+//      LOGGER.error("There was an exception in sending the message : {}", e.getMessage(), e);
+//      status = false;
+//    }
+    LOGGER.info("send message status true");
   }
 
   private MimeMessage getMimeMessage(Session session, String fromAddress, List<String> userEmail) throws UnsupportedEncodingException, MessagingException {
