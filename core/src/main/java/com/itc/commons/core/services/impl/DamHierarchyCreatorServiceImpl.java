@@ -88,4 +88,25 @@ public class DamHierarchyCreatorServiceImpl {
         }
         return parentNode;
     }
+
+    /**
+     * Sets jcr property with given value of a node
+     * @param nodePath
+     * @param propertyName
+     * @param propertyValue
+     */
+    public void setNodeProperty(String nodePath, String propertyName, String propertyValue){
+        try {
+            Session session = initSession();
+            Node node = session.getNode(nodePath);
+            node.setProperty(propertyName,propertyValue);
+            log.info("property '{}' added successfully", propertyName);
+            session.save();
+        } catch (LoginException e) {
+            log.error("Error while getting session : {}",e.getMessage());
+        } catch (RepositoryException e) {
+            log.error("Error while setting property : {}",e.getMessage());
+        }
+
+    }
 }

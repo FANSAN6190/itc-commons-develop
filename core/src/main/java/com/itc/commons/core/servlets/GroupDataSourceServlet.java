@@ -111,6 +111,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
             String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", "Campaign for specific need");
             String finalPath = scheme + "://" + serverName + ":" + port + path;
 
             String subject = "Add assets";
