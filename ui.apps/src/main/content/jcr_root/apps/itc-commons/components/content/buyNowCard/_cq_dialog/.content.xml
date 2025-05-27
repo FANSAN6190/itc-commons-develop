@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0"
+  xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+  jcr:primaryType="nt:unstructured"
+  jcr:title="Buy Now Card"
+  sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+      jcr:primaryType="nt:unstructured"
+      sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+              jcr:primaryType="nt:unstructured"
+              sling:resourceType="granite/ui/components/coral/foundation/tabs"
+              maximized="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                    <productInfo
+                      jcr:primaryType="nt:unstructured"
+                      jcr:title="Product Info"
+                      sling:resourceType="granite/ui/components/coral/foundation/container"
+                      margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <columns
+                              jcr:primaryType="nt:unstructured"
+                              sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                              margin="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <column
+                                      jcr:primaryType="nt:unstructured"
+                                      sling:resourceType="granite/ui/components/coral/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <addMarquee
+                                              fieldLabel="Marquee Title"
+                                              name="./marqueeTitle"
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                            <productTitle
+                                              fieldLabel="Product Title"
+                                              name="./productTitle"
+                                              required="{Boolean}true"
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                            <productImage
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                              allowUpload="{Boolean}false"
+                                              fieldLabel="Product Image"
+                                              fileNameParameter="./fileName"
+                                              fileReferenceParameter="./productImage"
+                                              mimeTypes="[image/*]"
+                                              name="./background"/>
+                                            <altText
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                              emptyText="Enter Alt Text"
+                                              fieldLabel="Alt Text"
+                                              name="./altText"/>
+                                            <mrpPrice
+                                              fieldLabel="MRP Price"
+                                              name="./mrpPrice"
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                            <productSoldOut
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                              name="./isSoldOut"
+                                              text="Is Sold Out?"
+                                              uncheckedValue="{Boolean}false"
+                                              value="{Boolean}true"/>
+                                            <ctaLinks
+                                              cq:showOnCreate="{Boolean}true"
+                                              jcr:primaryType="nt:unstructured"
+                                              sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                              composite="{Boolean}true"
+                                              fieldLabel="Add cta links">
+                                                <field
+                                                  jcr:primaryType="nt:unstructured"
+                                                  sling:resourceType="granite/ui/components/coral/foundation/container"
+                                                  name="./ctaLinks">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                        <disableShop
+                                                          jcr:primaryType="nt:unstructured"
+                                                          sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                          name="./disableShop"
+                                                          text="Disable this ecommerce link temporarily?"
+                                                          uncheckedValue="{Boolean}false"
+                                                          value="{Boolean}true"/>
+                                                        <dropdown
+                                                          cq:showOnCreate="{Boolean}true"
+                                                          jcr:primaryType="nt:unstructured"
+                                                          sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                          fieldLabel="Select Option"
+                                                          name="./selectedOption">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <default
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  text="--Select the option--"/>
+                                                                <itcEStore
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="ITC E-Store"
+                                                                  value="estore"/>
+                                                                <flipkart
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Flipkart"
+                                                                  value="flipkart"/>
+                                                                <amazon
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Amazon"
+                                                                  value="amazon"/>
+                                                                <zepto
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Zepto"
+                                                                  value="zepto"/>
+                                                                <blinkit
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Blinkit"
+                                                                  value="blinkit"/>
+                                                                <instamart
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Instamart"
+                                                                  value="instamart"/>
+                                                                <bigbasket
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="Bigbasket"
+                                                                  value="bigbasket"/>
+                                                                <jiomart
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="JioMart"
+                                                                  value="jiomart"/>
+                                                                <dmart
+                                                                  jcr:primaryType="nt:unstructured"
+                                                                  sling:resourceType="granite/ui/components/coral/foundation/form/select/option"
+                                                                  text="DMart"
+                                                                  value="dmart"/>
+                                                            </items>
+                                                        </dropdown>
+                                                        <siteLink
+                                                          cq:showOnCreate="{Boolean}true"
+                                                          jcr:primaryType="nt:unstructured"
+                                                          sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                          fieldLabel="E-Commerce Site Link"
+                                                          name="./siteLink"/>
+                                                        <mrpShopPrice
+                                                          fieldLabel="MRP E-Commerce Price"
+                                                          name="./mrpShopPrice"
+                                                          jcr:primaryType="nt:unstructured"
+                                                          sling:resourceType="granite/ui/components/coral/foundation/form/textfield"/>
+                                                    </items>
+                                                </field>
+                                            </ctaLinks>
+                                        </items>
+                                    </column>
+                                </items>
+                            </columns>
+                        </items>
+                    </productInfo>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>

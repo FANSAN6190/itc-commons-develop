@@ -1,0 +1,111 @@
+<sly data-sly-use.model="com.itc.commons.core.sling.models.FooterComponentModel">
+    <section class="container-hd fmm-container p-0">
+        <div class="footer-brand w-100">
+            <section class="footer-brand__primary" data-bg-desktop-src="${model.desktopImageReference}"
+            data-bg-mobile-src="${model.mobileImageReference}" style="background-color: ${model.chosenColorPrimary @context='text'};">
+                <div class="container fmm-container">
+                    <div class="footer-brand__primary--content d-flex flex-column flex-md-row justify-content-md-between align-items-center">
+                        <section class="footer-brand__left d-flex gap-5 align-items-center">
+                            <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= model.logoLink}"
+                                data-sly-use.validLink="${'../util/getValidLink.js' @ url= model.logoLink}">
+                                <sly data-sly-test="${validLink}">
+                                    <!-- Render anchor tag if validLink is present -->
+                                    <a href="${validLink}" 
+                                       target="${isInternal ? '' : '_blank'}" 
+                                       class="footer-brand__logo d-inline-block cta-analytics" 
+                                       data-link-region="${component.title}" 
+                                       aria-label="${model.logoAltText}">
+                                        <img data-device-src="${model.logoReference}" 
+                                             alt="${model.logoAltText}" 
+                                             class="object-fit-contain w-100 h-100">
+                                    </a>
+                                </sly>
+                                
+                                <sly data-sly-test="${!validLink}">
+                                    <!-- Render div if validLink is not present -->
+                                    <div class="footer-brand__logo d-inline-block cta-analytics" 
+                                         data-link-region="${component.title}" 
+                                         aria-label="${model.logoAltText}">
+                                        <img data-device-src="${model.logoReference}" 
+                                             alt="${model.logoAltText}" 
+                                             class="object-fit-contain w-100 h-100">
+                                    </div>
+                                </sly>
+                            </sly>
+                            <sly data-sly-test="${model.secondaryLogoReference}">
+                                <div class="footer-brand__secondary--logo d-inline-block">
+                                    <img class="object-fit-contain w-100 h-100" data-device-src="${model.secondaryLogoReference}" alt="${model.secondaryLogoAltText}">
+                                </div>
+                            </sly>
+                        </section>
+                        <section class="footer-brand__right">
+                            <nav class="footer-brand__navbar d-grid d-md-flex" aria-label="footer navbar">
+                                <div class="footer-brand__navbar--left d-flex flex-column flex-md-row ">
+                                    <sly data-sly-resource="${'list-1' @ resourceType='itc-commons/components/content/footerList',decorationTagName='div'}"/>
+                                    <sly data-sly-resource="${'list-2' @ resourceType='itc-commons/components/content/footerList',decorationTagName='div'}"/>
+                                </div>
+                                <div class="footer-brand__navbar--right d-flex flex-column flex-md-row">
+                                    <sly data-sly-resource="${'list-3' @ resourceType='itc-commons/components/content/footerList',decorationTagName='div'}"/>
+                                    <sly data-sly-resource="${'list-4' @ resourceType='itc-commons/components/content/footerList',decorationTagName='div'}"/>
+                                </div>
+                            </nav>
+                        </section>
+                    </div>
+                </div>
+            </section>
+            <section class="footer-brand__secondary" style="background-color: ${model.chosenColorSecondary @context='text'};">
+                <div class="container fmm-container">
+                    <div class="footer-brand__secondary--content d-flex flex-column flex-md-row justify-content-md-between align-items-center">
+                        <section class="footer-brand__left">
+                            <ul class="footer-brand__left--list d-flex align-items-center justify-content-center flex-wrap">
+                                <li class="footer-brand__left--item" data-sly-test="${model.portalText && model.portalTextLink}">
+                                    <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= model.portalTextLink}"
+                                          data-sly-use.validLink="${'../util/getValidLink.js' @ url= model.portalTextLink}">
+                                        <a href="${validLink}" target="${isInternal ? '' : '_blank'}" class="footer-brand__left--link cta-analytics" data-link-region="${component.title}">
+                                            ${model.portalText}
+                                        </a>
+                                    </sly>
+                                </li>
+                                <li class="footer-brand__left--item" data-sly-test="${model.foodiesOnly && model.foodiesLink}">
+                                    <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= model.foodiesLink}"
+                                        data-sly-use.validLink="${'../util/getValidLink.js' @ url= model.foodiesLink}">
+                                        <a href="${validLink}" target="${isInternal ? '' : '_blank'}" class="footer-brand__left--link cta-analytics" data-link-region="${component.title}">
+                                            ${model.foodiesOnly}
+                                        </a>
+                                    </sly>
+                                </li>
+                                <li class="footer-brand__left--item" data-sly-test="${model.esiteText && model.esiteLink}">
+                                    <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= model.esiteLink}"
+                                        data-sly-use.validLink="${'../util/getValidLink.js' @ url= model.esiteLink}">
+                                        <a href="${validLink}" target="${isInternal ? '' : '_blank'}" class="footer-brand__left--link cta-analytics" data-link-region="${component.title}">
+                                            ${model.esiteText}
+                                        </a>
+                                    </sly>
+                                </li>
+                                <li class="footer-brand__left--item" data-sly-test="${model.copyrightText}">
+                                    <span class="footer-brand__left--text">
+                                        ${model.copyrightText}
+                                    </span>
+                                </li>
+                            </ul>
+                        </section>
+                        <section class="footer-brand__right">
+                            <ul class="footer-brand__right--list d-flex align-items-center justify-content-center">
+                                <sly data-sly-list="${model.footerLogoList}">
+                                    <li class="footer-brand__right--item d-flex justify-content-center align-items-center">
+                                      <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= item.iconLink}"
+                                          data-sly-use.validLink="${'../util/getValidLink.js' @ url= item.iconLink}">
+                                        <a href="${validLink}" class="footer-brand__right--link cta-analytics" data-link-region="${component.title}" target="${isInternal ? '' : '_blank'}">
+                                          <img aria-label="${item.iconName}" data-device-src="${item.text}" class="object-fit-contain w-100 h-100" alt="${validLink}">
+                                        </a>
+                                      </sly>
+                                    </li>
+                                </sly>
+                            </ul>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </section>
+</sly>

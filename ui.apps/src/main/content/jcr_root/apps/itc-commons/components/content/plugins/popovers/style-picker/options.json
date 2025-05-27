@@ -1,0 +1,13 @@
+[
+  {"text": "Typography","value": "BTC","heading": "true"},
+  {"text": "Heading1","value": "heading1"},
+  {"text": "Heading2","value": "heading2"},
+  {"text": "Heading3","value": "heading3"},
+  {"text": "Heading4","value": "heading4"},
+  {"text": "Body1","value": "body1"},
+  {"text": "Body2","value": "body2"},
+  {"text": "Body3","value": "body3"},
+  {"text": "Body4","value": "body4"},
+  {"text": "Spacing-8","value": "spacing-8"},
+  {"text": "Spacing-16","value": "spacing-16"}
+]

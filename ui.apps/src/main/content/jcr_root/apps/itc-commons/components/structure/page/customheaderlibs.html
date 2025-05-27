@@ -1,0 +1,10 @@
+<sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+  <sly data-sly-call="${clientlib.css @ categories='itc-commons.base'}"/>
+</sly>
+
+<sly data-sly-test="${!inheritedPageProperties.isLaunchDisabled}" data-sly-test.scriptSrc="${inheritedPageProperties.launchScriptSrc}">
+  <script src="${scriptSrc}"></script>
+</sly>
+
+<sly data-sly-use.model="com.itc.commons.core.sling.models.BasePageModel"/>
+<link rel="icon" type="${model.faviconMimeType}" href="${inheritedPageProperties.faviconFileReference}">

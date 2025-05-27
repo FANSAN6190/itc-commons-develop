@@ -1,0 +1,6 @@
+{
+  "scripts": [
+    "create service user asset-approval-service-user",
+    "set ACL for asset-approval-service-user\n  allow jcr:read, rep:write on /content/dam\n  allow jcr:read on /home\nend"
+  ]
+}

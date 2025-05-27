@@ -1,0 +1,8 @@
+{
+  "resource.resolver.vanitypath.cache.in.background":false,
+  "resource.resolver.vanitypath.blacklist":[
+  ],
+  "resource.resolver.map.location":"/etc/map.publish",
+  "resource.resolver.vanitypath.whitelist":[
+  ]
+}

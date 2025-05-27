@@ -1,0 +1,39 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${properties.parentPage}"></sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>
+<sly data-sly-use.sitemapModel="com.itc.commons.core.sling.models.SitemapComponentModel">
+  <ul class="static-list-items sitemap-static-list fmm-container-fluid">
+    <sly data-sly-list.item="${sitemapModel.staticListItem}">
+      <sly data-sly-test.ctaLink="${item.iconLink}"/>
+      <sly data-sly-use.ctaValidLink="${'../util/getValidLink.js' @ url= ctaLink}"/>
+      <sly data-sly-use.isExploreInternal="${'../util/linkChecker.js' @ url= ctaLink}"/>
+      <li class="sitemap-static-items fw-bold">
+        <a href="${ctaValidLink @extension ='html'}" target="${isExploreInternal ? '' : '_blank'}" class="static-item-link sitemap-static-link">${item.text}</a>
+      </li>
+    </sly>
+  </ul>
+  <sly data-sly-test="${sitemapModel.childPages.size > 0}">
+    <ul class="page-hierarchy sitemap-list container fmm-container-fluid">
+      <!-- Recursively display child pages -->
+      <sly data-sly-call="${pageHierarchy @ pages=sitemapModel.childPages}"></sly>
+    </ul>
+  </sly>
+</sly>
+<template data-sly-template.pageHierarchy="${@ pages}">
+  <sly data-sly-list.page="${pages}">
+    <sly data-sly-test.ctaLink="${page.link}"/>
+    <sly data-sly-use.ctaValidLink="${'../util/getValidLink.js' @ url= ctaLink}"/>
+    <sly data-sly-use.isExploreInternal="${'../util/linkChecker.js' @ url= ctaLink}"/>
+    <li data-sly-test.ctaTitle="${page.title}" class="sitemap-list__item fw-bold">
+      <a href="${ctaValidLink @extension ='html'}" target="${isExploreInternal ? '' : '_blank'}"
+         class="page-title sitemap-list__item--link">${ctaTitle}</a>
+      <!-- Check for nested child pages -->
+      <sly data-sly-test="${page.children.size > 0}">
+        <ul class="sitemap-list__item--childlist">
+          <!-- Recursive call to the template with nested child pages -->
+          <sly data-sly-call="${pageHierarchy @ pages=page.children}"></sly>
+        </ul>
+      </sly>
+    </li>
+  </sly>
+</template>

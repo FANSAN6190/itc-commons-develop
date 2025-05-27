@@ -1,0 +1,70 @@
+<template data-sly-template.ctaTemplate="${@ label, link, targetBlank, ctaType, ctaOptionType, ctaTheme, isDisabled}">
+  <sly data-sly-use.isInternal="${'itc-commons/components/content/util/linkChecker.js' @ url= link}"
+       data-sly-use.validLink="${'itc-commons/components/content/util/getValidLink.js' @ url= link}">
+  </sly>
+  <sly data-sly-test="${ctaOptionType != 'button'}">
+    <a class="svasti-cta w-fit text-decoration-none d-flex align-items-center
+      ${ctaType}
+      ${isDisabled && ctaType == 'primary' && ctaTheme == 'dark' ? 'pe-none disabled px-8 pb-3 text-black bg-light-gray-100 border-light-gray-100' : ''}
+
+      ${isDisabled && ctaType == 'primary' && ctaTheme == 'light' ? 'pe-none disabled px-8 pb-3 bg-light-pink border-light-pink text-cream-100' : ''}
+
+      ${!isDisabled && ctaType == 'primary' && ctaTheme == 'light'? 'px-8 pb-3 text-cream-100 border border-2 border-red-100 border-maroon-100-hover border-red-300-active bg-red-100 bg-maroon-100-hover bg-red-300-active' : ''}
+
+      ${!isDisabled && ctaType == 'primary' && ctaTheme == 'dark'? 'px-8 pb-3 text-black border border-2 border-cream-100 border-cream-500-hover border-cream-500-active bg-cream-100 bg-cream-500-hover bg-cream-100-active' : ''}
+
+      ${isDisabled && ctaType == 'secondary' && ctaTheme == 'dark' ? 'px-8 pb-3 pe-none disabled border border-light-gray-100 text-light-gray-100 bg-transparent' : ''}
+
+      ${isDisabled && ctaType == 'secondary' && ctaTheme == 'light' ? 'px-8 pb-3 pe-none disabled border border-light-pink bg-transparent text-light-pink bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'secondary' && ctaTheme == 'light'? 'px-8 pb-3 text-red-100 border text-white-hover border-2 border-red-100 border-red-100-hover bg-transparent bg-red-100-hover bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'secondary' && ctaTheme == 'dark'? 'px-8 pb-3 text-cream-100 border text-black-hover border-2 border-cream-100 border-cream-500-hover border-yellow-50-active bg-transparent bg-cream-500-hover bg-yellow-50-active': ''}
+
+      ${isDisabled && ctaType == 'tertiary' && ctaTheme == 'dark' ? 'pe-none disabled text-light-gray-100 bg-transparent-active' : ''}
+
+      ${isDisabled && ctaType == 'tertiary' && ctaTheme == 'light' ? 'pe-none disabled bg-transparent text-light-pink bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'tertiary' && ctaTheme == 'light'? ' text-red-100 shadow-lg-cream-100 text-maroon-200-hover  bg-transparent  bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'tertiary' && ctaTheme == 'dark'? 'text-cream-100 text-cream-500-hover bg-transparent': ''}"
+       href="${isInternal ? validLink : link}" target="${targetBlank ? '_blank': ''}">
+      <span
+          class="svasti-cta__label fw-semibold ${ctaType == 'tertiary' ? 'default leading-20' : 'fs-default leading-26'}">${label}</span>
+    </a>
+  </sly>
+
+  <sly data-sly-test="${ctaOptionType == 'button'}">
+    <button
+        class="svasti-cta w-fit text-decoration-none d-flex align-items-center
+      ${ctaType}
+      ${isDisabled && ctaType == 'primary' && ctaTheme == 'dark' ? ' pe-none disabled px-8 pb-3 text-black bg-light-gray-100 border-light-gray-100' : ''}
+
+      ${isDisabled && ctaType == 'primary' && ctaTheme == 'light' ? 'pe-none disabled px-8 pb-3 bg-light-pink border-light-pink text-cream-100' : ''}
+
+      ${!isDisabled && ctaType == 'primary' && ctaTheme == 'light'? 'px-8 pb-3 text-cream-100 border border-2 border-red-100 border-maroon-100-hover border-red-300-active bg-red-100 bg-maroon-100-hover bg-red-300-active' : ''}
+
+      ${!isDisabled && ctaType == 'primary' && ctaTheme == 'dark'? 'px-8 pb-3 text-black border border-2 border-cream-100 border-cream-500-hover border-cream-500-active bg-cream-100 bg-cream-500-hover bg-cream-100-active' : ''}
+
+      ${isDisabled && ctaType == 'secondary' && ctaTheme == 'dark' ? 'px-8 pb-3 pe-none disabled border border-light-gray-100 text-light-gray-100 bg-transparent' : ''}
+
+      ${isDisabled && ctaType == 'secondary' && ctaTheme == 'light' ? 'px-8 pb-3 pe-none disabled border border-light-pink bg-transparent text-light-pink bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'secondary' && ctaTheme == 'light'? 'px-8 pb-3 text-red-100 border text-white-hover border-2 border-red-100 border-red-100-hover bg-transparent bg-red-100-hover bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'secondary' && ctaTheme == 'dark'? 'px-8 pb-3 text-cream-100 border text-black-hover border-2 border-cream-100 border-cream-500-hover border-yellow-50-active bg-transparent bg-cream-500-hover bg-yellow-50-active': ''}
+
+      ${isDisabled && ctaType == 'tertiary' && ctaTheme == 'dark' ? 'pe-none disabled text-light-gray bg-transparent-active' : ''}
+
+      ${isDisabled && ctaType == 'tertiary' && ctaTheme == 'light' ? 'pe-none disabled bg-transparent text-light-pink bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'tertiary' && ctaTheme == 'light'? ' text-red-100 shadow-lg-cream-100 text-maroon-200-hover  bg-transparent  bg-transparent-active' : ''}
+
+      ${!isDisabled && ctaType == 'tertiary' && ctaTheme == 'dark'? 'text-cream-100 text-cream-500-hover bg-transparent': ''}"
+        type="button" ${isDisabled ? 'disabled' : '' }>
+    <span
+        class="svasti-cta__label fw-semibold ${ctaType == 'tertiary' ? 'default leading-20' : 'fs-default leading-26'}">${label}</span>
+    </button>
+  </sly>
+  </sly>
+</template>

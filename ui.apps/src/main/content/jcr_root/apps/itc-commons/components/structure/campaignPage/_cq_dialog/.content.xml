@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0"
+  xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+  jcr:primaryType="nt:unstructured"
+  sling:resourceType="cq/gui/components/authoring/dialog">
+  <content jcr:primaryType="nt:unstructured">
+    <items jcr:primaryType="nt:unstructured">
+      <tabs jcr:primaryType="nt:unstructured">
+        <items jcr:primaryType="nt:unstructured">
+          <brandConfiguration
+                  jcr:primaryType="nt:unstructured"
+                  jcr:title="Brand Configuration"
+                  cq:showOnCreate="{Boolean}false"
+                  sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                  margin="{Boolean}true">
+            <items jcr:primaryType="nt:unstructured">
+              <column
+                      jcr:primaryType="nt:unstructured"
+                      sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                  <brandName
+                          jcr:primaryType="nt:unstructured"
+                          sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                          fieldLabel="Brand Name"
+                          name="./brandName"
+                          required="{Boolean}true">
+                    <items jcr:primaryType="nt:unstructured">
+                      <aashirvaad
+                              jcr:primaryType="nt:unstructured"
+                              text="Aashirvaad"
+                              value="aashirvaad"/>
+                      <yippee
+                              jcr:primaryType="nt:unstructured"
+                              text="Yippe"
+                              value="yippee"/>
+                      <bnatural
+                              jcr:primaryType="nt:unstructured"
+                              text="bnatural"
+                              value="b_natural"/>
+                      <dark-fantasy
+                              jcr:primaryType="nt:unstructured"
+                              text="Dark Fantasy"
+                              value="dark_fantasy"/>
+                      <bingo
+                              jcr:primaryType="nt:unstructured"
+                              text="Bingo"
+                              value="bingo"/>
+                      <candyman
+                              jcr:primaryType="nt:unstructured"
+                              text="Candyman"
+                              value="candyman"/>
+                      <farmlite
+                              jcr:primaryType="nt:unstructured"
+                              text="Farmlite"
+                              value="farmlite"/>
+                      <sunrise
+                              jcr:primaryType="nt:unstructured"
+                              text="Sunrise"
+                              value="sunrise"/>
+                      <svasti
+                              jcr:primaryType="nt:unstructured"
+                              text="Svasti"
+                              value="svasti"/>
+                      <sunfeast-fantastik
+                              jcr:primaryType="nt:unstructured"
+                              text="Sunfeast-Fantastik"
+                              value="sunfeast-fantastik"/>
+                      <itc-corporate
+                              jcr:primaryType="nt:unstructured"
+                              text="itc-corporate"
+                              value="itc-corporate"/>
+                      <itc-newsroom
+                              jcr:primaryType="nt:unstructured"
+                              text="itc-newsroom"
+                              value="itc-newsroom"/>
+                      <moms-magic
+                              jcr:primaryType="nt:unstructured"
+                              text="Moms-Magic"
+                              value="moms-magic"/>
+                      <masterchef
+                              jcr:primaryType="nt:unstructured"
+                              text="ITC-Masterchef"
+                              value="master-chef"/>
+                      <foodies-only
+                              jcr:primaryType="nt:unstructured"
+                              text="Foodies-Only"
+                              value="foodies-only"/>
+                      <sunfeast-world
+                              jcr:primaryType="nt:unstructured"
+                              text="sunfeast-world"
+                              value="sunfeast-world"/>
+
+                    </items>
+                  </brandName>
+
+                </items>
+              </column>
+            </items>
+          </brandConfiguration>
+          <itcData
+            jcr:primaryType="nt:unstructured"
+            jcr:title="ITC Properties"
+            cq:showOnCreate="{Boolean}false"
+            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+            margin="{Boolean}true">
+            <items jcr:primaryType="nt:unstructured">
+              <column
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                  <errorpages
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                    fieldDescription="Error pages for content page"
+                    fieldLabel="Error Page Path"
+                    name="./errorPages"
+                    rootPath="/content"/>
+                  <googleSiteVerification
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                    fieldLabel="Google Site Verification Code"
+                    name="./googleSiteVerification"/>
+                  <favicon
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                    allowDrop="{Boolean}false"
+                    allowUpload="{Boolean}false"
+                    fieldDescription="Favicon for the site. This property is inherited in all child pages."
+                    fieldLabel="Favicon"
+                    fileNameParameter="./fileName"
+                    fileReferenceParameter="./faviconFileReference"
+                    name="./favicon"/>
+                </items>
+              </column>
+            </items>
+          </itcData>
+          <seoSettings
+            jcr:primaryType="nt:unstructured"
+            jcr:title="SEO Settings"
+            cq:showOnCreate="{Boolean}false"
+            sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+            margin="{Boolean}true">
+            <items jcr:primaryType="nt:unstructured">
+              <column
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/container">
+                <items jcr:primaryType="nt:unstructured">
+                  <text
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                    fieldLabel="Adobe Launch Script Src"
+                    fieldDescription="URL of the Adobe Launch Script"
+                    name="./launchScriptSrc"/>
+                  <isLaunchDisabled
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                    name="./isLaunchDisabled"
+                    text="Disable Launch"
+                    fieldDescription="Disables Launch on the page and all the child pages"
+                    value="{Boolean}true"
+                    uncheckedValue="{Boolean}false"/>
+                  <seoFieldSet
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="SEO Properties"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/fieldset">
+                    <items jcr:primaryType="nt:unstructured">
+                      <seokeywords
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                        fieldLabel="SEO Keywords"
+                        name="./seokeywords"/>
+                    </items>
+                  </seoFieldSet>
+                </items>
+              </column>
+            </items>
+          </seoSettings>
+        </items>
+      </tabs>
+    </items>
+  </content>
+</jcr:root>

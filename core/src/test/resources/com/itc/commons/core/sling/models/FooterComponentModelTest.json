@@ -1,0 +1,42 @@
+{
+  "footer":{
+    "logoReference": "/content/dam/itcshared/damAsset/itcshared Logo.png",
+    "logoLink": "/content/itcshared/language-masters/en/home-page",
+    "logoAltText": "ITC Logo",
+    "esiteLink": "https://www.itcstore.in/brand/itcshared",
+    "esiteText": "ITC eStore",
+    "foodiesLink": "https://www.itcportal.com/businesses/fmcg/foods.aspx",
+    "foodiesOnly": "ITC Foodiesonly",
+    "portalText": "ITC Portal",
+    "copyrightText": "Copyright © 2024",
+    "portalTextLink": "https://www.itcportal.com/",
+    "footerLogoField": {
+      "primaryType": "nt:unstructured",
+      "item0": {
+        "primaryType": "nt:unstructured",
+        "socialMediaLink": "https://www.facebook.com/itcportal/",
+        "socialMediaLogo": "/content/dam/itcshared/damAsset/path3620@2x.png"
+      },
+      "item1": {
+        "primaryType": "nt:unstructured",
+        "socialMediaLink": "https://twitter.com/i/flow/login?redirect_after_login=%2FITCCorpCom",
+        "socialMediaLogo": "/content/dam/itcshared/damAsset/path3621@2x.png"
+      },
+      "item2": {
+        "primaryType": "nt:unstructured",
+        "socialMediaLink": "https://www.instagram.com/itc_limited/",
+        "socialMediaLogo": "/content/dam/itcshared/damAsset/instagram_icon.png"
+      },
+      "item3": {
+        "primaryType": "nt:unstructured",
+        "socialMediaLink": "https://www.youtube.com/channel/UCA6kL19PkfpLSu57zIyWHrg",
+        "socialMediaLogo": "/content/dam/itcshared/en/damAsset/path3622@2x.png"
+      },
+      "item4": {
+        "primaryType": "nt:unstructured",
+        "socialMediaLink": "https://www.itcportal.com/contact-us.aspx",
+        "socialMediaLogo": "/content/dam/itcshared/damAsset/whatsapp-icon.png"
+      }
+    }
+  }
+}

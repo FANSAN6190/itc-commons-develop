@@ -1,0 +1,11 @@
+{
+  "enabled":true,
+  "vanity.dispatch.enabled":true,
+  "serve-authenticated-from-cache":true,
+  "ttl":300,
+  "error-page.fallback-name":500,
+  "cache.serve-authenticated":true,
+  "error-page.extension":"html",
+  "error-page.system-path":"/content/itc-commons/error-page",
+  "paths":[]
+}

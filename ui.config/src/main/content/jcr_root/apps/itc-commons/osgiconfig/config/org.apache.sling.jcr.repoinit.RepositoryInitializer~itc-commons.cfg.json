@@ -1,0 +1,7 @@
+{
+    "scripts": [
+        "create path (sling:OrderedFolder) /content/dam/itc-commons",
+        "create path (nt:unstructured) /content/dam/itc-commons/jcr:content",
+        "set properties on /content/dam/itc-commons/jcr:content\n  set cq:conf{String} to /conf/itc-commons\n  set jcr:title{String} to \"ITC Commons AEM\"\nend"
+    ]
+}

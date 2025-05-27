@@ -1,0 +1,117 @@
+<section class="position-fixed top-0 start-0 w-100 z-3">
+    <div class="container-hd fmm-container p-0">
+        <div class="header-primary" data-bg-desktop-src="${properties.desktopImageReference}"
+        data-bg-mobile-src="${properties.mobileImageReference}" style="background-color: ${properties.primaryBgColor @context='text'};">
+            <div class="container h-100 fmm-container">
+                <div class="d-flex justify-content-between align-items-center h-100">
+                    <section class="header-primary__left d-flex align-items-center">
+                        <div class="header-primary__hamburger d-flex justify-content-center align-items-center d-lg-none">
+                            <button class="header-primary__hamburger--icon d-flex flex-column justify-content-between" aria-label="hamburger-menu-button">
+                                <img data-sly-test="${properties.hamburgerIconReference}" data-device-src="${properties.hamburgerIconReference}" class="object-fit-contain w-100 h-100" loading="lazy">
+                                <span class="header-primary__hamburger--element"></span>
+                                <span class="header-primary__hamburger--element"></span>
+                                <span class="header-primary__hamburger--element"></span>
+                            </button>
+                        </div>
+                        <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= properties.logoLink}"
+                            data-sly-use.validLink="${'../util/getValidLink.js' @ url= properties.logoLink}">
+                            <a href="${validLink}" class="header-primary__logo d-inline-block cta-analytics" data-link-region="${component.title}" target="${isInternal ? '' : '_blank'}"
+                                aria-label="link to homepage">
+                                <img data-device-src="${properties.iconReference}" alt="${properties.logoAltText}" class="object-fit-contain w-100 h-100" loading="lazy">
+                            </a>
+                        </sly>
+                        <nav data-sly-use.navigation="com.adobe.cq.wcm.core.components.models.Navigation"
+                            data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+                            data-sly-use.groupTemplate="group.html"
+                            data-sly-call="${groupTemplate.group @ items=navigation.items}"
+                            data-sly-test.hasContent="${navigation.items.size > 0}"
+                            id="${navigation.id}"
+                            class="header-primary__navbar--desktop d-none d-lg-block"
+                            itemscope itemtype="http://schema.org/SiteNavigationElement"
+                            data-cmp-data-layer="${navigation.data.json}"
+                            aria-label="${navigation.accessibilityLabel}">
+                        </nav>
+                        <sly data-sly-call="${template.placeholder @ isEmpty=!hasContent, classAppend='cmp-navigation'}"></sly>
+                    </section>
+                    <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= properties.logoLink}"
+                        data-sly-use.validLink="${'../util/getValidLink.js' @ url= properties.logoLink}">
+                        <a href="${validLink}" class="header-primary__mobile--logo d-inline-block d-lg-none cta-analytics" data-link-region="${component.title}" target="${isInternal ? '' : '_blank'}"
+                            aria-label="link to homepage">
+                            <img data-device-src="${properties.iconReference}" alt="${properties.logoAltText}" class="object-fit-contain w-100 h-100" loading="lazy">
+                        </a>
+                    </sly>
+                    <section class="header-primary__right d-flex flex-lg-row-reverse align-items-center justify-content-center">
+                        <sly data-sly-test="${properties.searchStatus == 'searchEnabled'}">
+                            <div class="header-primary__feature header-primary__feature--search flex-column align-items-center justify-content-center position-relative" role="button" tabindex="0" aria-label="search button">
+                               <div class="header-primary__feature--icon" data-sly-test="${properties.searchIcon}">
+                                    <img data-device-src="${properties.searchIcon}" alt="${properties.searchText}" class="object-fit-contain w-100 h-100" loading="lazy">
+                               </div>
+                               <p class="header-primary__feature--text d-none d-lg-block" data-sly-test="${properties.searchText}">${properties.searchText}</p>
+                               <sly data-sly-use.searchTemplate="search.html" data-sly-call="${searchTemplate.search}"></sly>
+                            </div>
+                        </sly>
+                        <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= properties.accessibilityLink}"
+                            data-sly-use.validLink="${'../util/getValidLink.js' @ url= properties.accessibilityLink}">
+                            <a href="${validLink}" class="header-primary__feature d-flex flex-column align-items-center justify-content-center cta-analytics" data-link-region="${component.title}" data-sly-test="${properties.accessibilityIcon || properties.accessibilityText}"
+                                target="${isInternal ? '' : '_blank'}" aria-label="accessibility button">
+                                <div class="header-primary__feature--icon" data-device-bg-src="${properties.accessibilityIcon}" data-sly-test="${properties.accessibilityIcon}"></div>
+                                <p class="header-primary__feature--text d-none d-lg-block" data-sly-test="${properties.accessibilityText}">${properties.accessibilityText}</p>
+                            </a>
+                        </sly>
+                        <sly data-sly-test="${properties.customerText && properties.partnerText}">
+                            <sly data-sly-use.addTemplate="additionalFields.html" data-sly-call="${addTemplate.customerPartnerDesktop}"></sly>
+                        </sly>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="header-primary__modal z-3 position-fixed start-0 w-100">
+    <div class="header-primary__modal--container h-100 w-100">
+        <div class="header-primary__sidemenu h-100 overflow-auto" style="background-color: ${properties.secondaryBgColor @context='text'};">
+            <sly data-sly-test="${properties.customerText && properties.partnerText}">
+                <sly data-sly-use.addTemplate="additionalFields.html" data-sly-call="${addTemplate.customerPartnerMobile}"></sly>
+            </sly>
+            <nav data-sly-use.navigation="com.adobe.cq.wcm.core.components.models.Navigation"
+                data-sly-use.template="core/wcm/components/commons/v1/templates.html"
+                data-sly-use.groupTemplate="group.html"
+                data-sly-call="${groupTemplate.group @ items=navigation.items}"
+                data-sly-test.hasContent="${navigation.items.size > 0}"
+                id="${navigation.id}"
+                class="header-primary__sidemenu--navbar"
+                itemscope itemtype="http://schema.org/SiteNavigationElement"
+                data-cmp-data-layer="${navigation.data.json}"
+                aria-label="${navigation.accessibilityLabel}">
+            </nav>
+            <sly data-sly-call="${template.placeholder @ isEmpty=!hasContent, classAppend='cmp-navigation'}"></sly>
+        </div>
+    </div>
+</section>
+<section class="container-hd fmm-container p-0 header-primary__spacer"></section>
+<section data-sly-test="${properties.addCurve}" class="header-primary__curve position-absolute w-100 start-0 z-1">
+    <div class="container-hd header-primary__curve--container w-100"></div>
+</section>
+<style>
+    .header-primary .header-primary__navbar--desktop .cmp-navigation__item--level-0 .cmp-navigation__group {
+        background-color: ${properties.secondaryBgColor @context = 'styleString'} !important;
+    }
+    .header-primary .header-primary__navbar--desktop .cmp-navigation__item--level-0 .cmp-navigation__group::before {
+        border-bottom-color: ${properties.secondaryBgColor @context = 'styleString'} !important;
+    }
+    .header-primary .header-primary__navbar--desktop .cmp-navigation__item--level-0 .cmp-navigation__item--level-1:hover{
+        background-color: ${properties.tertiaryBgColor @context = 'styleString'} !important;
+    }
+    .header-primary__modal .cmp-navigation__item--level-0.item-active{
+        background-color: ${properties.tertiaryBgColor @context = 'styleString'} !important;
+    }
+    .global-search__section{
+        background-color: ${properties.secondaryBgColor @context = 'styleString'} !important;
+    }
+    .global-search__section::before{
+        border-bottom-color: ${properties.secondaryBgColor @context = 'styleString'} !important;
+    }
+    .global-search__section .global-search__link:hover{
+        background-color: ${properties.tertiaryBgColor @context = 'styleString'} !important;
+    }
+</style>

@@ -1,0 +1,13 @@
+<sly data-sly-use.clientlib="core/wcm/components/commons/v1/templates/clientlib.html">
+  <sly data-sly-call="${clientlib.js @ categories='itc-commons.base', async=true}"/>
+</sly>
+
+<sly data-sly-test="${!inheritedPageProperties.isLaunchDisabled && inheritedPageProperties.launchScriptSrc}">
+  <script type="text/javascript">_satellite.pageBottom();</script>
+</sly>
+<sly data-sly-use.brandModel="com.itc.commons.core.sling.models.BrandModel">
+  <sly data-sly-set.staticCategory="${brandModel.brandName}.site"></sly>
+  <sly data-sly-test="${brandModel.brandName}">
+    <sly data-sly-call="${clientlib.js @ categories= staticCategory, async=true}"/>
+  </sly>
+</sly>

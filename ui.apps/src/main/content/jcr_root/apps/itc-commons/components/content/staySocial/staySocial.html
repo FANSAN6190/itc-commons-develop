@@ -1,0 +1,32 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${properties.title}"></sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>
+<section data-sly-test="${hasContent}" class="stay-social pt-14 py-lg-11 bg-cream-300">
+  <div class="container gx-8 gx-sm-0">
+    <h2 class="stay-social__title font-24 leading-34 text-dark-gray-100 font-baskerville font-sm-40 text-center fw-bold" data-sly-test="${properties.title}">${properties.title}</h2>
+    <h3 class="stay-social__subtext font-16 leading-24 text-dark-gray-100 font-sm-18 text-center fw-medium mt-4" data-sly-test="${properties.subText}">${properties.subText}</h3>
+    <p class="stay-social__desc font-16 leading-24 text-dark-gray-100 font-sm-18 text-center mt-2" data-sly-test="${properties.description}">${properties.description}</p>
+    <div class="stay-social__main mt-8">
+      <ul class="stay-social__cards d-grid gap-5 gap-sm-8 w-fit mx-auto">
+        <sly data-sly-list="${resource.listChildren}">
+          <sly data-sly-test="${item.name=='socialMediaPosts'}" data-sly-list.socialMediaList="${item.listChildren}">
+            <li class="stay-social__card overflow-hidden ${socialMediaListList.even ? 'ratio-9x16' : 'ratio-1x1'} ratio">
+              <sly data-sly-use.isInternal="${'itc-commons/components/content/util/linkChecker.js' @ url= socialMediaList.postLink}"
+                data-sly-use.validLink="${'itc-commons/components/content/util/getValidLink.js' @ url= socialMediaList.postLink}">
+                <a href="${isInternal ? validLink : socialMediaList.postLink}" target="${isInternal ? '_self': '_blank'}" class="stay-social__card--link d-block w-100 h-100">
+                  <img data-device-src="${socialMediaList.imageReference}" alt="${socialMediaList.imageAltText}" class="stay-social__card--image w-100 h-100 object-fit-cover"/>
+                </a>
+              </sly>
+            </li>
+          </sly>
+        </sly>
+      </ul>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-center mt-8 mt-lg-10" data-sly-test="${properties.ctaLink && properties.ctaLabel}">
+    <sly data-sly-use.isInternal="${'itc-commons/components/content/util/linkChecker.js' @ url= properties.ctaLink}"
+          data-sly-use.validLink="${'itc-commons/components/content/util/getValidLink.js' @ url= properties.ctaLink}">
+        <sly data-sly-use.cta="${'itc-commons/templates/ctaTemplate.html'}" data-sly-call="${cta.ctaTemplate @ label=properties.ctaLabel, link=properties.ctaLink, targetBlank=isInternal ? false : true, ctaType='primary', ctaTheme='light'}"></sly>
+    </sly>
+  </div>
+</section>

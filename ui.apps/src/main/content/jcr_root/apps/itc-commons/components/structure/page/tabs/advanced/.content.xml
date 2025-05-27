@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+  xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+  jcr:primaryType="nt:unstructured">
+  <items jcr:primaryType="nt:unstructured">
+    <column jcr:primaryType="nt:unstructured">
+      <items jcr:primaryType="nt:unstructured">
+        <seo
+          jcr:primaryType="nt:unstructured">
+          <items jcr:primaryType="nt:unstructured">
+            <robotsTags
+              jcr:primaryType="nt:unstructured"
+              sling:resourceType="granite/ui/components/coral/foundation/form/select"
+              fieldDescription="Select the robots tags to control search engine crawler behavior. Keep in mind that some of the options conflict with each other. In that case the more permissive options take precedence."
+              fieldLabel="Robots Tags"
+              multiple="{Boolean}true"
+              name="./cq:robotsTags">
+              <items jcr:primaryType="nt:unstructured">
+                <max-image-preview-large
+                  jcr:primaryType="nt:unstructured"
+                  text="max-image-preview:large"
+                  value="max-image-preview:large"/>
+                <max-snippet-1
+                  jcr:primaryType="nt:unstructured"
+                  text="max-snippet:-1"
+                  value="max-snippet:-1"/>
+                <max-video-preview-1
+                  jcr:primaryType="nt:unstructured"
+                  text="max-video-preview:-1"
+                  value="max-video-preview:-1"/>
+              </items>
+              <granite:data
+                jcr:primaryType="nt:unstructured"
+                cq-msm-lockable="./cq:robotsTags"/>
+            </robotsTags>
+          </items>
+        </seo>
+      </items>
+    </column>
+  </items>
+</jcr:root>

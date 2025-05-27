@@ -1,0 +1,14 @@
+// Configuration created by Apache Sling JCR Installer
+{
+  "linkcheckertransformer.rewriteElements":[
+    "a:data-default-link",
+    "div:data-frame-ready-path",
+    "div:data-poster-ready-path",
+    "a:href",
+    "area:href",
+    "form:action",
+    "img:src",
+    "link:href",
+    "script:src"
+  ]
+}

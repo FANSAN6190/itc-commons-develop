@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/conf/itc-commons" mode="merge"/>
+    <filter root="/conf/global/settings/dam/processing/itc-commons"/>
+    <filter root="/conf/global/settings/workflow/models/boing-asset-uuid-creation"/>
+    <filter root="/conf/global/settings/workflow/launcher/config/boing-asset-uuid-creation"/>
+    <filter root="/var/workflow/models/boing-asset-uuid-creation"/>
+    <filter root="/conf/global/settings/workflow/models/page_uid_creation_model"/>
+    <filter root="/var/workflow/models/page_uid_creation_model"/>
+    <filter root="/etc/map.publish.dev/https/dev.letsboing.com"/>
+    <filter root="/etc/map.publish.stage/https/stage.letsboing.com"/>
+    <filter root="/etc/map.publish.prod/https/letsboing.com"/>
+    <filter root="/etc/map.publish.dev/https/dev.letsboing_com"/>
+    <filter root="/etc/map.publish.stage/https/stage.letsboing_com"/>
+    <filter root="/etc/map.publish.prod/https/letsboing_com"/>
+    <filter root="/etc/map.publish.dev/https/dev.familylikefriends.com"/>
+    <filter root="/etc/map.publish.stage/https/stage.familylikefriends.com"/>
+    <filter root="/etc/map.publish.prod/https/beta.familylikefriends.com"/>
+    <filter root="/etc/map.publish.dev/https/dev.familylikefriends_com"/>
+    <filter root="/etc/map.publish.stage/https/stage.familylikefriends_com"/>
+    <filter root="/etc/map.publish.prod/https/beta.familylikefriends_com"/>
+</workspaceFilter>

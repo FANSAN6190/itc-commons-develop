@@ -1,0 +1,42 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${properties.title}"></sly>
+<div data-sly-test="${properties.marqueeTitle}" class="section buy-now-marquee">
+    <p>${properties.marqueeTitle}</p>
+</div>
+<div data-sly-test="${properties.productTitle}" class="section columns-container buy-now-card">
+  <div class="product-card">
+    <div class="product-header">
+      <div class="product-image-container">
+        <sly data-sly-test="${properties.productImage}">
+          <img src="${properties.productImage}" alt="${properties.altText}" class="product-image">
+        </sly>
+        <sly data-sly-test="${!properties.productImage}">
+          <p class="alt-text">${properties.altText}</p>
+        </sly>
+      </div>
+
+      <div class="product-info-container">
+        <div class="product-info">
+          <h2>${properties.productTitle}</h2>
+          <sly data-sly-test="${!properties.isSoldOut && properties.mrpPrice}">
+            <p>MRP: ₹ ${properties.mrpPrice}</p>
+          </sly>
+        </div>
+        <div data-sly-list="${resource.listChildren}" class="product-prices">
+          <sly data-sly-test="${!properties.isSoldOut && item.name=='ctaLinks'}" data-sly-list.shopItem="${item.listChildren}">
+            <a data-sly-test="${!shopItem.disableShop && shopItem.siteLink}" href="${shopItem.siteLink}" target="_blank" class="shop-cta-button">
+              <div class="price-option">
+                <img src="/etc.clientlibs/itc-commons/clientlibs/clientlib-site/resources/images/${shopItem.selectedOption}.svg" alt="shop-logo">
+                <p data-sly-test="${shopItem.mrpShopPrice}">₹${shopItem.mrpShopPrice}</p>
+              </div>
+              <div class="ecommerce-name">${shopItem.selectedOption}</div>
+            </a>
+          </sly>
+          <div data-sly-test="${properties.isSoldOut}" class="sold-out-option">
+            <p>SOLD OUT</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

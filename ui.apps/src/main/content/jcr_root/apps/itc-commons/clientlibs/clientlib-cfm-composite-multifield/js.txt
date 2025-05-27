@@ -1,0 +1,2 @@
+#base=js
+cfm-composite-multifield.js

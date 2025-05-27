@@ -1,0 +1,5 @@
+{
+  "user.mapping": [
+    "itc-commons-aem.core:asset-approval-service-user=asset-approval-service-user"
+  ]
+}

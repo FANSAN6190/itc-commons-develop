@@ -1,0 +1,17 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${resource.hasChildren}"></sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>
+<sly data-sly-test="${!hasContent && wcmmode.edit}">
+  <div class="${wcmmode.edit ? 'edit-mode' : ''}"></div>
+</sly>
+<sly data-sly-list="${resource.listChildren}">
+  <ul data-sly-test="${item.name=='footerLinks'}" data-sly-list.footerItem="${item.listChildren}"
+    class="footer-list d-flex align-items-center justify-content-center align-items-md-start flex-column">
+    <sly data-sly-use.isInternal="${'../util/linkChecker.js' @ url= footerItem.ctaLink}"
+        data-sly-use.validLink="${'../util/getValidLink.js' @ url= footerItem.ctaLink}">
+        <li class="footer-list__item">
+          <a href="${validLink}" class="cta-analytics analytics_cta_click footer-list__item--link d-inline-block" data-link-region="${component.title}" target="${isInternal ? '': '_blank'}">${footerItem.ctaText}</a>
+        </li>
+    </sly>
+  </ul>
+</sly>

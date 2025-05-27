@@ -1,0 +1,17 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${properties.title}"></sly>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>
+
+<div class="container-hd">
+    <section class="itc-banner position-relative">
+        <img data-device-src="${properties.backgroundImage}" alt="${properties.imageAltText}" class="w-100 object-fit-contain d-none d-sm-block">
+        <img data-sly-test="${properties.mobileBackgroundImage}" data-device-src="${properties.mobileBackgroundImage}" alt="${properties.imageAltText}" class="w-100 object-fit-contain d-block d-sm-none">
+        <div class="position-absolute start-0 top-0 w-100 h-100">
+            <div class="container w-100 h-100 d-flex flex-column justify-content-center">
+                <h2 class="itc-banner__title">${properties.title}</h2>
+                <div class="itc-banner__desc">${properties.description @context='html'}</div>
+                <div data-sly-resource="${'responsivegrid' @ resourceType='itc-commons/components/content/responsivegrid'}"></div>
+            </div>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,79 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.group-form-container {
+    width: 550px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+}
+
+.group-form-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #111; /* Dark text for labels */
+}
+
+.group-form-container input,
+.group-form-container select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.group-form-container input[type="submit"] {
+    margin-top: 20px;
+    background-color: #0073e6;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.group-form-container input[type="submit"]:hover {
+    background-color: #005bb5;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 50px;
+  aspect-ratio: 1;
+  display: grid;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  grid-area: 1/1;
+  margin: 0 0 15px 15px;
+  --c:#0000 calc(100%/3),#046D8B 0 calc(2*100%/3),#0000 0;
+  --c1:linear-gradient(90deg,var(--c));
+  --c2:linear-gradient( 0deg,var(--c));
+  background: var(--c1),var(--c2),var(--c1),var(--c2);
+  background-size: 300% 4px,4px 300%;
+  background-repeat: no-repeat;
+  animation: l12 1s infinite linear;
+}
+.loader:after {
+  margin: 15px 15px 0 0;
+  transform: scale(-1,-1);
+}
+@keyframes l12 {
+  0%   {background-position: 50%  0,100% 100%,0    100%,0 0}
+  25%  {background-position: 0    0,100% 50% ,0    100%,0 0}
+  50%  {background-position: 0    0,100% 0   ,50%  100%,0 0}
+  75%  {background-position: 0    0,100% 0   ,100% 100%,0 50%}
+ 75.01%{background-position: 100% 0,100% 0   ,100% 100%,0 50%}
+  100% {background-position: 50%  0,100% 0   ,100% 100%,0 100%}
+}
+
+.hidden{
+    display:none;
+}

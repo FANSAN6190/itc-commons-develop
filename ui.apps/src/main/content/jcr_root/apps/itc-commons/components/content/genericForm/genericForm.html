@@ -1,0 +1,69 @@
+<sly data-sly-use.templates="core/wcm/components/commons/v1/templates.html"
+     data-sly-test.hasContent="${model.imageDetailsGrid && model.imageDetailsGrid.size > 0}"/>
+<sly data-sly-call="${templates.placeholder @ isEmpty=!hasContent}"></sly>
+
+<form id="campaignForm">
+    <div id="dynamicFields">
+        <sly data-sly-use.formModel="com.itc.commons.core.sling.models.GenericFormFieldsModel"/>
+        <h1>${formModel.formTitle}</h1>
+
+        <sly data-sly-list.field="${formModel.fieldLabels}">
+            <div>
+                <label for="${field}">${field}:</label>
+                <input type="text" id="${field}" name="${field}">
+            </div>
+        </sly>
+
+        <sly data-sly-list.checkbox="${formModel.formLists}">
+            <sly data-sly-test="${checkbox.checkboxDescription}">
+                <div> ${checkbox.checkboxDescription @context='html'} </div>
+            </sly>
+        </sly>
+    </div>
+
+    <button type="button" class="campaignFormSubmit--button">Submit</button>
+</form>
+
+<!-- JavaScript to Handle Form Submission -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".campaignFormSubmit--button").on("click", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            let formData = {};
+
+            // Collect dynamically generated form fields
+            $("#dynamicFields input").each(function () {
+                formData[$(this).attr("name")] = $(this).val();
+            });
+
+            // Disable submit button to prevent multiple submissions
+            $(".campaignFormSubmit--button").prop("disabled", true).text("Submitting...");
+
+            $.ajax({
+                type: "POST",
+                url: "/content.uploadCampaignData.json",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (response) {
+                    $(".campaignFormSubmit--button").text("Submitted");
+
+                    setTimeout(function () {
+                        $("#campaignForm").trigger("reset"); // Reset form fields
+                        $(".campaignFormSubmit--button").text("Submit").prop("disabled", false);
+                    }, 5000);
+
+                    alert("Form submitted successfully! File uploaded: " + response.url);
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error:", error);
+                    alert("An error occurred while submitting the form.");
+
+                    $(".campaignFormSubmit--button").text("Submit").prop("disabled", false);
+                }
+            });
+        });
+    });
+</script>

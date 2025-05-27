@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Banner"
+    sling:resourceType="cq/gui/components/authoring/dialog">
+    <content
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <title
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                emptyText="Enter Title"
+                fieldLabel="Title"
+                name="./title"
+                required="{Boolean}true"/>
+            <description
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/gui/components/authoring/dialog/richtext"
+                fieldLabel="Description"
+                name="./description"
+                useFixedInlineToolbar="{Boolean}true"/>
+            <desktopBackgroundImage
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                allowUpload="{Boolean}false"
+                class="cq-droptarget"
+                emptyText="Desktop background image"
+                fieldLabel="Desktop Background Image"
+                fileNameParameter="./fileName"
+                fileReferenceParameter="./backgroundImage"
+                name="./background"
+                required="{Boolean}true"/>
+            <mobileBackgroundImage
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                allowUpload="{Boolean}false"
+                class="cq-droptarget"
+                emptyText="Mobile background image"
+                fieldLabel="Mobile Background Image"
+                fileNameParameter="./mobileImageName"
+                fileReferenceParameter="./mobileBackgroundImage"
+                name="./mobileBackgroundImageName"/>
+            <imageAltText
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                emptyText="Add text here"
+                fieldLabel="Background Image Alt Text"
+                name="./imageAltText"/>
+        </items>
+    </content>
+</jcr:root>

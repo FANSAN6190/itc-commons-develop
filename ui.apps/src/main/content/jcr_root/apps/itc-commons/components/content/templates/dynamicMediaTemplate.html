@@ -1,0 +1,58 @@
+<!-- /*
+  Copyright 2016 Adobe Systems Incorporated
+  All Rights Reserved.
+
+  NOTICE:  All information contained herein is, and remains
+  the property of Adobe Systems Incorporated and its suppliers,
+  if any.  The intellectual and technical concepts contained
+  herein are proprietary to Adobe Systems Incorporated and its
+  suppliers and are protected by trade secret or copyright law.
+  Dissemination of this information or reproduction of this material
+  is strictly forbidden unless prior written permission is obtained
+  from Adobe Systems Incorporated.
+*/ -->
+<template data-sly-template.dynamicMediaTemplate='${@ assetRef,altText,viewerPreset,presetType,addClass}'>
+  <div
+      data-sly-use.dmInfo="${'/apps/itc-commons/components/content/util/dynamicmedia_custom.js' @ imgSrc = assetRef,altText = altText,viewerPreset=viewerPreset, presetType=presetType}"
+      data-sly-use.clientLib="${'/libs/granite/sightly/templates/clientlib.html'}"
+      data-sly-test="${dmInfo.isDMEnabled || dmInfo.isS7Enabled || dmInfo.isWCMDisabled}"
+      data-sly-unwrap>
+    <sly data-sly-call="${clientLib.all @ categories='cq.dam.components.scene7.dynamicmedia,cq.dam.components.scene7.common.i18n'}"/>
+    <!-- /* Viewer container when there is an asset */ -->
+    <div data-sly-test="${dmInfo.asset.path}" class="${dmInfo.placeholder.dropCSS}">
+      <div id="${dmInfo.componentId}"
+           data-current-page="${currentPage.path}"
+           data-page-locale="${dmInfo.pageLocale}"
+           data-asset-path="${dmInfo.asset.path}"
+           data-asset-name="${dmInfo.asset.name}"
+           data-asset-type="${dmInfo.asset.s7damType}"
+           data-viewer-type="${dmInfo.asset.viewerType}"
+           data-viewer-path="${dmInfo.asset.viewerPath}"
+           data-imageserver="${dmInfo.asset.imageserver}"
+           data-videoserver="${dmInfo.asset.videoserver}"
+           data-contenturl="${dmInfo.asset.contenturl}"
+           data-config="${dmInfo.asset.config}"
+           data-imagepreset="${dmInfo.asset.imagePreset}"
+           data-wcmdisabled="${dmInfo.isWCMDisabled}"
+           data-dms7="${dmInfo.isS7Enabled}"
+           data-stagesize="${dmInfo.asset.stageSize}"
+           data-mode="${dmInfo.asset.mode}"
+           data-breakpoints="${dmInfo.asset.breakpoints}"
+           data-enablehd="${dmInfo.asset.enablehd}"
+           data-urlmodifiers="${dmInfo.asset.urlModifiers}"
+           data-viewermodifiers="${dmInfo.asset.viewerModifiers}"
+           data-aspectratio="${dmInfo.asset.aspectRatio}"
+           data-linkurl="${dmInfo.asset.linkURL}"
+           data-linktarget="${dmInfo.asset.linkTarget}"
+           data-title="${dmInfo.asset.title}"
+           data-alt="${dmInfo.asset.alt}"
+           class="${dmInfo.className}"
+           data-custom-class="${addClass}">
+      </div>
+    </div>
+    <!-- /* Placeholder when there is no content */ -->
+    <div data-sly-test="${!dmInfo.asset.path}"
+         class="${dmInfo.placeholder.css}"
+         data-emptytext="${dmInfo.placeholder.text}"></div>
+  </div>
+</template>

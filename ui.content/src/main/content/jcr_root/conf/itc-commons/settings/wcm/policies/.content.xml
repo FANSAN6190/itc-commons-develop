@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:mixinTypes="[rep:AccessControllable]"
+    jcr:primaryType="cq:Page">
+    <rep:policy/>
+    <itc-commons jcr:primaryType="nt:unstructured">
+        <components jcr:primaryType="nt:unstructured">
+            <content jcr:primaryType="nt:unstructured">
+                <form jcr:primaryType="nt:unstructured">
+                    <container jcr:primaryType="nt:unstructured">
+                        <form-container
+                            jcr:description="Allows the form components to be dropped into this core form container."
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Content Form"
+                            sling:resourceType="wcm/core/components/policy/policy"
+                            components="[/apps/itc-commons/components/form/button,/apps/itc-commons/components/form/hidden,/apps/itc-commons/components/form/options,/apps/itc-commons/components/form/text,/apps/itc-commons/components/form/container]">
+                            <jcr:content jcr:primaryType="nt:unstructured"/>
+                        </form-container>
+                    </container>
+                </form>
+                <container jcr:primaryType="nt:unstructured">
+                    <policy_1737627434685
+                            jcr:lastModified="{Date}2025-01-23T15:47:57.072+05:30"
+                            jcr:lastModifiedBy="admin"
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Generic Campaign Container"
+                            sling:resourceType="wcm/core/components/policy/policy"
+                            components="group:ITC Commons AEM - Content"
+                            layoutDisabled="false">
+                        <jcr:content jcr:primaryType="nt:unstructured"/>
+                    </policy_1737627434685>
+                </container>
+
+            </content>
+            <structure jcr:primaryType="nt:unstructured">
+                <page jcr:primaryType="nt:unstructured">
+                    <policy
+                        jcr:description="Includes the required client libraries."
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Generic Page"
+                        sling:resourceType="wcm/core/components/policy/policy"
+                        clientlibs="[itc-commons.dependencies,itc-commons.site]"
+                        clientlibsJsHead="itc-commons.dependencies">
+                        <jcr:content jcr:primaryType="nt:unstructured"/>
+                    </policy>
+                </page>
+            </structure>
+        </components>
+    </itc-commons>
+    <wcm jcr:primaryType="nt:unstructured">
+        <foundation jcr:primaryType="nt:unstructured">
+            <components jcr:primaryType="nt:unstructured">
+                <responsivegrid jcr:primaryType="nt:unstructured"/>
+            </components>
+        </foundation>
+    </wcm>
+</jcr:root>

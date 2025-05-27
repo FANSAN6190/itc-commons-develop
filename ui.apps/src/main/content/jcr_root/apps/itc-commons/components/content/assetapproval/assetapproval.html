@@ -1,0 +1,39 @@
+<div class="group-form-container" data-resourcepath="/bin/groupdatasource">
+
+    <h2>Initiate Asset Approval workflow</h2>
+
+    <form id="groupForm">
+
+        <label for="categorySelect">Category:</label>
+        <select id="categorySelect" name="category" required>
+            <option value="">-- Select a category --</option>
+        </select>
+
+
+        <label for="brandSelect">Brand:</label>
+        <select id="brandSelect" name="brand" disabled required>
+            <option value="">-- Select a brand --</option>
+        </select>
+
+        <label for="subBrandSelect">Sub Brand:</label>
+        <select id="subBrandSelect" name="subBrand" disabled required>
+            <option value="">-- Select a Sub Brand --</option>
+        </select>
+
+        <label for="campaignName">Campaign Name:</label>
+        <input type="text" id="campaignName" name="campaignName" required>
+
+        <label for="groupSelect">ITC Group:</label>
+        <select id="groupSelect" name="group" required>
+            <option value="">-- Select a group --</option>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <div class="loader hidden"></div>
+    <div id="formResult"></div>
+
+    <sly data-sly-use.clientLib="/libs/granite/sightly/templates/clientlib.html" />
+    <sly data-sly-call="${clientLib.all @ categories='groupform'}" />
+</div>

@@ -1,0 +1,11 @@
+<sly data-sly-use.model="com.itc.commons.core.sling.models.RecaptchaModel" />
+<div class="recaptcha-container">
+  <input type="hidden" id="recaptchaScriptUrl" name="recaptchaScriptUrl" value="${model.getRecaptchaScriptURL}">
+  <div class="google-recaptcha">
+    <input type="hidden" class="required recaptchaToken" name="recaptchaToken" value="" required>
+    <div id="g-recaptcha" class="g-recaptcha" data-sitekey="${model.getRecaptchaSiteKey}"
+      data-callback="warrantyRecaptchaSubmit" data-expired-callback="warrantyRecaptchaExpire"></div>
+  </div>
+  <div class="recaptcha-error error-message"></div>
+</div>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>

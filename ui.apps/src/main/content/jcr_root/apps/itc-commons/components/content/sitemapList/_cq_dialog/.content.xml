@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0"
+  xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+  jcr:primaryType="nt:unstructured"
+  jcr:title="Sitemap List"
+  sling:resourceType="cq/gui/components/authoring/dialog">
+  <content
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="granite/ui/components/coral/foundation/container">
+    <items jcr:primaryType="nt:unstructured">
+      <tabs
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/tabs"
+        maximized="{Boolean}true">
+        <items jcr:primaryType="nt:unstructured">
+          <listSettings
+            jcr:primaryType="nt:unstructured"
+            jcr:title="List Settings"
+            sling:resourceType="granite/ui/components/coral/foundation/container"
+            margin="{Boolean}true">
+            <items jcr:primaryType="nt:unstructured">
+              <columns
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                margin="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                  <column
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                    <items jcr:primaryType="nt:unstructured">
+                      <listFrom
+                        granite:class="cq-dialog-dropdown-showhide"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                        fieldLabel="Build List Using"
+                        name="./listFrom">
+                        <granite:data
+                          jcr:primaryType="nt:unstructured"
+                          cq-dialog-dropdown-showhide-target=".list-option-listfrom-showhide-target"/>
+                        <items jcr:primaryType="nt:unstructured">
+                          <children
+                            granite:hide="${cqDesign.disableChildren}"
+                            jcr:primaryType="nt:unstructured"
+                            text="Child pages"
+                            value="children"/>
+                          <static
+                            granite:hide="${cqDesign.disableStatic}"
+                            jcr:primaryType="nt:unstructured"
+                            text="Fixed list"
+                            value="static"/>
+                        </items>
+                      </listFrom>
+                      <setChildren
+                        granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                        <granite:data
+                          jcr:primaryType="nt:unstructured"
+                          showhidetargetvalue="children"/>
+                        <items jcr:primaryType="nt:unstructured">
+                          <heading
+                            granite:class="coral-Heading coral-Heading--4"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/heading"
+                            level="{Long}4"
+                            text="Options for Child Pages"/>
+                          <well
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/well">
+                            <items jcr:primaryType="nt:unstructured">
+                              <parentPage
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/gui/components/coral/common/form/pagefield"
+                                fieldLabel="Parent Page"
+                                required="{Boolean}true"
+                                name="./parentPage"
+                                rootPath="/content"/>
+                              <childDepth
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/form/numberfield"
+                                fieldDescription="Controls how deep the child items can be added to the list"
+                                fieldLabel="Child Depth"
+                                max="100"
+                                min="1"
+                                name="./childDepth"
+                                step="1"
+                                value="1"/>
+                            </items>
+                          </well>
+                        </items>
+                      </setChildren>
+                      <setStatic
+                        granite:class="hide list-option-listfrom-showhide-target foundation-layout-util-vmargin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                        <granite:data
+                          jcr:primaryType="nt:unstructured"
+                          showhidetargetvalue="static"/>
+                        <items jcr:primaryType="nt:unstructured">
+                          <heading
+                            granite:class="coral-Heading coral-Heading--4"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/heading"
+                            level="{Long}4"
+                            text="Options for Fixed List"/>
+                          <well
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/well">
+                            <items jcr:primaryType="nt:unstructured">
+                              <pages
+                                granite:class="foundation-layout-util-maximized-alt coral-Form-fieldwrapper"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                <items jcr:primaryType="nt:unstructured">
+                                  <multi
+                                    granite:class="cmp-list__editor-static-multifield"
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="granite/ui/components/coral/foundation/form/multifield"
+                                    composite="{Boolean}true"
+                                    fieldLabel="Add Items">
+                                    <field
+                                      granite:class="cmp-list__editor-static-link"
+                                      jcr:primaryType="nt:unstructured"
+                                      sling:resourceType="granite/ui/components/coral/foundation/container"
+                                      name="./staticItem">
+                                      <items jcr:primaryType="nt:unstructured">
+                                        <link
+                                          granite:class="cmp-list__editor-static-multifield-linkURL"
+                                          jcr:primaryType="nt:unstructured"
+                                          sling:resourceType="cq/gui/components/coral/common/form/pagefield"
+                                          emptyText="Link"
+                                          fieldLabel="CTA Link"
+                                          name="./link"
+                                          required="{Boolean}true"
+                                          rootPath="/content"/>
+                                        <text
+                                          granite:class="cmp-list__editor-static-multifield-linkText"
+                                          jcr:primaryType="nt:unstructured"
+                                          sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                          emptyText="Text"
+                                          fieldLabel="CTA Text"
+                                          name="./text"
+                                          required="{Boolean}true"/>
+                                      </items>
+                                    </field>
+                                  </multi>
+                                </items>
+                              </pages>
+                            </items>
+                          </well>
+                        </items>
+                      </setStatic>
+                    </items>
+                  </column>
+                </items>
+              </columns>
+            </items>
+          </listSettings>
+        </items>
+      </tabs>
+    </items>
+  </content>
+</jcr:root>

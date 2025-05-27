@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/itc-commons/clientlibs"/>
+    <filter root="/apps/dam/components/scene7/dynamicmedia"/>
+    <filter root="/apps/itc-commons/components"/>
+    <filter root="/apps/itc-commons/i18n"/>
+    <filter root="/apps/sling/servlet/errorhandler"/>
+    <filter root="/apps/cq/xssprotection" />
+    <filter root="/apps/cq/core/content" />
+    <filter root="/apps/itc-commons/templates"/>
+    <filter root="/apps/itc-commons/asset-approval" />
+</workspaceFilter>

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="Header"
+    sling:resourceType="cq/gui/components/authoring/dialog"
+    extraClientlibs="[core.wcm.components.navigation.v1.editor]">
+    <content
+        granite:class="cmp-navigation__editor"
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="granite/ui/components/coral/foundation/container">
+        <items jcr:primaryType="nt:unstructured">
+            <tabs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/tabs"
+                maximized="{Boolean}true">
+                <items jcr:primaryType="nt:unstructured">
+                    <features
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Features"
+                        sling:resourceType="granite/ui/components/coral/foundation/container"
+                        margin="{Boolean}true">
+                        <items jcr:primaryType="nt:unstructured">
+                            <columns
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="granite/ui/components/coral/foundation/fixedcolumns"
+                                margin="{Boolean}true">
+                                <items jcr:primaryType="nt:unstructured">
+                                    <column
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                        <items jcr:primaryType="nt:unstructured">
+                                            <icon
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                                allowUpload="{Boolean}false"
+                                                class="cq-droptarget"
+                                                emptyText="Logo Icon"
+                                                fieldLabel="Logo Icon"
+                                                fileNameParameter="./iconName"
+                                                fileReferenceParameter="./iconReference"
+                                                name="./icon"/>
+                                            <logoLink
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                emptyText="Add Logo CTA Link here"
+                                                fieldLabel="Logo Link"
+                                                name="./logoLink"
+                                                rootPath="/content"/>
+                                            <logoAltText
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                emptyText="Add text here"
+                                                fieldLabel="Logo Alt Text"
+                                                name="./logoAltText"/>
+                                            <accessibility
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <accessibilityText
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                        emptyText="Accessibility Text"
+                                                        fieldLabel="Accessibility Text"
+                                                        name="./accessibilityText"/>
+                                                    <accessibilityIcon
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                                        allowUpload="{Boolean}false"
+                                                        class="cq-droptarget"
+                                                        emptyText="Accessibility Icon"
+                                                        fieldLabel="Accessibility Icon"
+                                                        fileNameParameter="./accessibilityFile"
+                                                        fileReferenceParameter="./accessibilityIcon"
+                                                        name="./accessibility"/>
+                                                    <addCurve
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/checkbox"
+                                                        name="./addCurve"
+                                                        text="Add Curve"
+                                                        uncheckedValue="{Boolean}false"
+                                                        value="{Boolean}true"/>
+                                                    <accessibilityLink
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                        emptyText="Accessibility link"
+                                                        fieldLabel="Accessibility link"
+                                                        name="./accessibilityLink"
+                                                        rootPath="/content"/>
+                                                </items>
+                                            </accessibility>
+                                            <searchStatus
+                                                granite:class="cq-dialog-dropdown-showhide"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="/libs/granite/ui/components/coral/foundation/form/select"
+                                                fieldDescription="Enable Search to add Search Functionality"
+                                                fieldLabel="Search Status"
+                                                name="./searchStatus">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <searchDisabled
+                                                        jcr:primaryType="nt:unstructured"
+                                                        text="Disabled"
+                                                        value="searchDisabled"/>
+                                                    <searchEnabled
+                                                        jcr:primaryType="nt:unstructured"
+                                                        text="Enabled"
+                                                        value="searchEnabled"/>
+                                                </items>
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    cq-dialog-dropdown-showhide-target=".searchStatus-showhide-target"/>
+                                            </searchStatus>
+                                            <searchDisabled
+                                                granite:class="searchStatus-showhide-target"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    showhidetargetvalue="searchDisabled"/>
+                                            </searchDisabled>
+                                            <searchEnabled
+                                                granite:class="searchStatus-showhide-target"
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                <items jcr:primaryType="nt:unstructured">
+                                                    <search
+                                                        jcr:primaryType="nt:unstructured"
+                                                        sling:resourceType="granite/ui/components/coral/foundation/container">
+                                                        <items jcr:primaryType="nt:unstructured">
+                                                            <searchText
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                                emptyText="Search"
+                                                                fieldLabel="Search"
+                                                                name="./searchText"/>
+                                                            <searchIcon
+                                                                jcr:primaryType="nt:unstructured"
+                                                                sling:resourceType="cq/gui/components/authoring/dialog/fileupload"
+                                                                allowUpload="{Boolean}false"
+                                                                class="cq-droptarget"
+                                                                emptyText="Search Icon"
+                                                                fieldLabel="Search Icon"
+                                                                fileNameParameter="./searchFile"
+                                                                fileReferenceParameter="./searchIcon"
+                                                                name="./search"/>
+                                                        </items>
+                                                    </search>
+                                                </items>
+                                                <granite:data
+                                                    jcr:primaryType="nt:unstructured"
+                                                    showhidetargetvalue="searchEnabled"/>
+                                            </searchEnabled>
+                                        </items>
+                                    </column>
+                                </items>
+                            </columns>
+                        </items>
+                    </features>
+                </items>
+            </tabs>
+        </items>
+    </content>
+</jcr:root>

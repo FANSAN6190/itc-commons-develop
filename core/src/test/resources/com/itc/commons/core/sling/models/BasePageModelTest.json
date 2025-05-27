@@ -1,0 +1,14 @@
+{
+  "home-page": {
+    "jcr:primaryType": "cq:Page",
+    "jcr:content": {
+      "jcr:primaryType": "cq:PageContent",
+      "jcr:title": "Home-Page",
+      "faviconFileReference": "/content/dam/candyman/sampleImage.png",
+      "image": {
+        "jcr:primaryType": "nt:unstructured",
+        "fileReference": "/content/dam/thumbnailImage.png"
+      }
+    }
+  }
+}

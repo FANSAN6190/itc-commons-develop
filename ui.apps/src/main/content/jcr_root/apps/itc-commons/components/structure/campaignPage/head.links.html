@@ -1,0 +1,19 @@
+<link data-sly-use.page="com.adobe.cq.wcm.core.components.models.Page"
+      data-sly-test="${page.canonicalLink}"
+      rel="canonical" href="${page.canonicalLink}">
+<link data-sly-test="${page.alternateLanguageLinks}"
+      data-sly-repeat="${page.alternateLanguageLinks.entrySet}"
+      rel="alternate" hreflang="${item.key.toLanguageTag}" href="${item.value}">
+
+<meta data-sly-test.keywords="${properties.seokeywords}" name="keywords" content="${page.keywords},${keywords}"/>
+<meta data-sly-test="${page.title}"
+      property="og:title" content="${page.title}">
+<meta data-sly-test="${page.canonicalLink}"
+      property="og:url" content="${page.canonicalLink}">
+<meta data-sly-test="${page.description}"
+      property="og:description" content="${page.description}">
+<sly data-sly-use.model="com.itc.commons.core.sling.models.BasePageModel"/>
+<meta data-sly-test="${model.thumbnailImage}"
+      property="og:image" content="${model.thumbnailImage}">
+<meta data-sly-test="${properties.googleSiteVerification}"
+      name="google-site-verification" content="${properties.googleSiteVerification}">
