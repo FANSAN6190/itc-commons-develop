@@ -25,7 +25,7 @@ import java.io.Externalizable;
 @Component(service = AssetRejectionService.class, immediate = true)
 public class AssetRejectionServiceImpl implements AssetRejectionService {
 
-    private static final Logger log = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+    private static final Logger log = LoggerFactory.getLogger(AssetRejectionServiceImpl.class);
 
     private static final String PROPERTY_APPROVAL_STATUS="approval";
     private static final String STATUS_REJECT="reject";

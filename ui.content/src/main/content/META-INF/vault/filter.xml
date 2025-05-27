@@ -19,4 +19,6 @@
     <filter root="/etc/map.publish.dev/https/dev.familylikefriends_com"/>
     <filter root="/etc/map.publish.stage/https/stage.familylikefriends_com"/>
     <filter root="/etc/map.publish.prod/https/beta.familylikefriends_com"/>
+    <filter root="/content/asset-approval"/>
+
 </workspaceFilter>

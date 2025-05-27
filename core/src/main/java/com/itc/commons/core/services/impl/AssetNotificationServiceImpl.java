@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 @Component(service = AssetNotificationService.class, immediate = true)
 public class AssetNotificationServiceImpl implements AssetNotificationService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AssetNotificationServiceImpl.class);
 
   @Reference
   private MailService mailService;

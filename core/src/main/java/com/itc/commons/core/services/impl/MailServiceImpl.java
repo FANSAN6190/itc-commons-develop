@@ -36,7 +36,7 @@ public class MailServiceImpl implements MailService {
   private int smtpPort;
 
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
   @Activate
   @Modified

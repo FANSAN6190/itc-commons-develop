@@ -24,7 +24,7 @@ public class DamHierarchyCreatorServiceImpl {
     ResourceResolverFactory resolverFactory;
 
 
-    private static final Logger log = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+    private static final Logger log = LoggerFactory.getLogger(DamHierarchyCreatorServiceImpl.class);
 
 
     String[] nodesInStructure = {"itc", "marketing-campaign"};

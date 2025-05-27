@@ -42,7 +42,7 @@ public class CustomEventListener implements ResourceChangeListener {
     @Reference
     private AssetNotificationService assetNotificationService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomEventListener.class);
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
