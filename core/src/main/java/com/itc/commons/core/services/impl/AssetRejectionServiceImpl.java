@@ -16,6 +16,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.mail.MessagingException;
 import java.io.Externalizable;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Service implementation to handle DAM asset rejection.
@@ -87,8 +88,8 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
         try{
             emailService.sendEmail(groupAgency, resolver, message, EMAIL_SUBJECT_REJECTION);
             log.info("Email sent to group agency: {}", groupAgency);
-        } catch (MessagingException e) {
-            log.error("Email service not working : {}", String.valueOf(e));
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("Email service not working : {}", e.getMessage());
         }
     }
 

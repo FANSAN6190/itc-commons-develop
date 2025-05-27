@@ -46,7 +46,6 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
             for (ResourceChange change : changes) {
                 String userId = changes.get(0).getUserId();
                 log.info("User Id of Reviewer : {}", userId);
-                System.out.println("User Id of Reviewer : "+userId);
 
                 String groupName = null;
                 if (userId != null) {
@@ -59,13 +58,11 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                             if (groups.hasNext()) {
                                 groupName = groups.next().getID();
                                 log.info("Group Id of Reviewer : {}", groupName);
-                                System.out.println("Group Id of Reviewer : "+groupName);
-
                             }
                         }
                     }
                 } else {
-                    throw new RuntimeException("Can not able to get User ID of reviewer");
+                    log.error("Can not able to get User ID of reviewer");
                 }
                 String path = change.getPath();
                 log.info("Asset Path : {}", path);
@@ -78,20 +75,16 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                     } else if(status.equals("accept")){
                         log.info("Asset Approved");
                     } else {
-                        throw new RuntimeException("Invalid field value for approval property");
+                        log.error("Invalid field value for approval property");
                     }
                 }
             }
         } catch (LoginException e) {
             log.error("Service User Error : {}", e.getMessage());
-            System.out.println("Service User Error : {}"+ e.getMessage());
         } catch (RepositoryException e){
             log.error("Error while handling Rejection service : {}", e.getMessage());
-            System.out.println("Error while handling Rejection service : "+e.getMessage());
         }catch (RuntimeException e) {
             log.error("Unknown Error Occurred : {}", e.getMessage());
-
-            System.out.println("Unknown Error Occurred"+e.getMessage());
         }
 
     }

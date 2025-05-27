@@ -8,6 +8,7 @@ import com.itc.commons.core.services.GroupService;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
@@ -17,6 +18,7 @@ import com.itc.commons.core.services.MailService;
 import com.itc.commons.core.services.impl.DamHierarchyCreatorServiceImpl;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.framework.Constants;
@@ -45,7 +47,7 @@ import java.io.IOException;
 )
 public class GroupDataSourceServlet extends SlingAllMethodsServlet {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GroupDataSourceServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(GroupDataSourceServlet.class);
     private static final Gson GSON = new Gson();
 
     @Reference
@@ -69,7 +71,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             writeJsonResponse(response, groups, HttpServletResponse.SC_OK);
 
         } catch (RepositoryException e) {
-            LOG.error("Error while fetching group data: {}", e.getMessage(), e);
+            log.error("Error while fetching group data: {}", e.getMessage(), e);
             writeJsonResponse(response,
                     Map.of("error", "Internal Server Error while fetching groups"),
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -85,7 +87,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 
-        LOG.info("Received POST request Form");
+        log.info("Received POST request Form");
 
         try (ResourceResolver resourceResolver = request.getResourceResolver()) {
 
@@ -109,6 +111,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
             String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", "Campaign for specific need");
             String finalPath = scheme + "://" + serverName + ":" + port + path;
 
             String subject = "Add assets";
@@ -118,14 +121,15 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
                     .concat("<p> ").concat(finalPath).concat("</p>")
                     .concat("<p>Thank you<br/>AEM Asset Services</p>");
 
-
-            try {
-                mailService.sendEmail(jsonObject.get("group").getAsString(), resourceResolver, message, subject);
-                writeJsonResponse(response, "Email sent to all users successfully", 200);
-            }
-            catch (MessagingException e) {
-                writeJsonResponse(response, e.getMessage(), 500);
-            }
+            mailService.sendEmail(jsonObject.get("group").getAsString(), resourceResolver, message, subject);
+            writeJsonResponse(response, "Email sent to all users successfully", 200);
+            log.info("Email sent to all users successfully");
+        } catch (LoginException | RepositoryException e) {
+            log.error("Failure in DAM Hierarchy creation service : {}", e.getMessage());
+            writeJsonResponse(response, e.getMessage(), 500);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("Email service not working : {}", e.getMessage());
+            writeJsonResponse(response, e.getMessage(), 500);
         }
     }
 

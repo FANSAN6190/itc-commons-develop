@@ -11,6 +11,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.UnsupportedEncodingException;
+
 @Component(service = AssetNotificationService.class, immediate = true)
 public class AssetNotificationServiceImpl implements AssetNotificationService {
 
@@ -36,10 +38,8 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
     try {
       mailService.sendEmail(reviewerGroupName, resourceResolver, message, subject);
       LOGGER.info("Notification email sent successfully for asset path: {}", assetPath);
-    }catch (MessagingException e) {
+    }catch (MessagingException | UnsupportedEncodingException e) {
       LOGGER.error("Failed to send notification : {}", e.getMessage());
-    } catch (RuntimeException e) {
-      LOGGER.error("Unknown Error Occurred: {}", e.getMessage());
     }
   }
 }
