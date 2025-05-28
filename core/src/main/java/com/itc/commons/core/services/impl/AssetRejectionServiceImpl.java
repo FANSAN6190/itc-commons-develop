@@ -164,8 +164,8 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      * @return the mapped agency group ID
      */
     private String resolveGroupAgency(String reviewerGroup) {
-        if (reviewerGroup.contains("_reviewer_")) {
-            return reviewerGroup.replace("_reviewer_", "_agency_");
+        if (reviewerGroup.contains("-reviewer-")) {
+            return reviewerGroup.replace("-reviewer-", "-agency-");
         } else {
             log.error("reviewer name convention is invalid, {}",reviewerGroup);
         }
