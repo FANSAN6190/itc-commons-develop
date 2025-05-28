@@ -33,6 +33,7 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
     AssetRejectionService assetRejectionService;
 
     @Reference
+
     ResourceResolverFactory resolverFactory;
 
     private static Logger log = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
