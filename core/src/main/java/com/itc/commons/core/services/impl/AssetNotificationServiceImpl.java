@@ -2,7 +2,6 @@ package com.itc.commons.core.services.impl;
 
 import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import com.itc.commons.core.services.AssetNotificationService;
-import com.itc.commons.core.services.MailService;
 
 import javax.mail.MessagingException;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -17,7 +16,7 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
   private static final Logger LOGGER = LoggerFactory.getLogger(AssetNotificationServiceImpl.class);
 
   @Reference
-  private MailService mailService;
+  private com.itc.commons.core.services.impl.MailService mailService;
 
   @Override
   public void notifyNewAsset(String reviewerGroupName, String assetPath, ResourceResolver resourceResolver) {

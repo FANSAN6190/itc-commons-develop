@@ -125,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
       subBrand: selectedSubBrandKey,
       subBrandDisplay: selectedSubBrandDisplay,
       campaignName: campaignName.value,
+      campaignDescription: campaignDescription.value,
       group: group.value
     };
 

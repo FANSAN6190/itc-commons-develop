@@ -102,25 +102,38 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
 
-            String[] damNodes = {jsonObject.get("category").getAsString(), jsonObject.get("brand").getAsString(), jsonObject.get("subBrand").getAsString(), jsonObject.get("campaignName").getAsString().toLowerCase().replace(" ", "-")};
+            String category = jsonObject.get("category").getAsString();
+            String categoryDisplay = jsonObject.get("categoryDisplay").getAsString();
+            String brand = jsonObject.get("brand").getAsString();
+            String brandDisplay = jsonObject.get("brandDisplay").getAsString();
+            String subBrand = jsonObject.get("subBrand").getAsString();
+            String subBrandDisplay = jsonObject.get("subBrandDisplay").getAsString();
+            String campaignName = jsonObject.get("campaignName").getAsString();
+            String campaignDescription = jsonObject.get("campaignDescription").getAsString();
+            String group = jsonObject.get("group").getAsString();
+
+
+            String[] damNodes = {category, brand, subBrand, campaignName.toLowerCase().replace(" ", "-")};
             damHierarchyCreatorService.createNodeStructure(damNodes);
 
             String scheme = request.getScheme();
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
-            String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            String path = "/assets.html/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
             String finalPath = scheme + "://" + serverName + ":" + port + path;
 
-            String subject = "Add assets";
+            String subject = brandDisplay + " | " + campaignName + " Creative Request";
 
-            String message = "<p>Dear USER,</p>"
-                    .concat("<p>You are requested to add assets on the path given below:</p>")
-                    .concat("<p> ").concat(finalPath).concat("</p>")
-                    .concat("<p>Thank you<br/>AEM Asset Services</p>");
+            String message = "<p>Dear " + group + ",</p>"
+                    .concat("<p>Campaign request for " + campaignName + " has been created with below description:<br>")
+                    .concat(campaignDescription + "</p>")
+                    .concat("<p>Please upload the asset (once available) to following path:<br>")
+                    .concat("Asset Path: ").concat(finalPath).concat("</p>")
+                    .concat("<p>Regards,<br>Digital Asset Management System</p>");
 
 
             try {
-                mailService.sendEmail(jsonObject.get("group").getAsString(), resourceResolver, message, subject);
+                mailService.sendEmail(group, resourceResolver, message, subject, true);
                 writeJsonResponse(response, "Email sent to all users successfully", 200);
             }
             catch (MessagingException e) {

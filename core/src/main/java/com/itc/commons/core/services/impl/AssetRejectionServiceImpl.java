@@ -2,7 +2,6 @@ package com.itc.commons.core.services.impl;
 import com.day.cq.commons.Externalizer;
 import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import com.itc.commons.core.services.AssetRejectionService;
-import com.itc.commons.core.services.MailService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -10,7 +9,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.itc.commons.core.services.impl.MailService;
 import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
