@@ -76,7 +76,7 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                 if (resource != null) {
                     status = (String) resource.getValueMap().get("approval");
                     if(status.equals("reject")){
-                        assetRejectionService.handleAssetRejection(path,groupName,resourceResolver);
+                        assetRejectionService.handleAssetRejectionToGroup(path,"My name is something",resourceResolver, groupName);
                     } else if(status.equals("accept")){
                         log.info("Asset Approved");
                     } else {
