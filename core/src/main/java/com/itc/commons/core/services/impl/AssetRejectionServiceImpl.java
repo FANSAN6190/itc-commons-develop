@@ -135,8 +135,7 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     @Override
     public void handleAssetRejectionToUser(String assetPath, String campaignDescription, ResourceResolver resolver,String agencyUser) throws RepositoryException {
 
-        String CleanedPath = assetPath.replace("/jcr:content",
-                "");
+        String CleanedPath = assetPath.replace("/jcr:content", "");
         String AssetCleanedPath = "/assets.html".concat(CleanedPath);
 
         CampaignPathParser campaignPathParser=new CampaignPathParser(AssetCleanedPath);
