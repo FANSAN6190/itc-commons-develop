@@ -1,4 +1,4 @@
-package com.itc.commons.core.classVariable;
+package com.itc.commons.core.util;
 
 public class CampaignPathParser {
 
@@ -33,11 +33,11 @@ public class CampaignPathParser {
 
     public String getAgencyGroupName()
     {
-        return brand.concat("_").concat(subBrand).concat("_agency_group");
+        return brand.concat("-").concat(subBrand).concat("-agency-group");
     }
 
     public String getReviewerGroupName()
     {
-        return brand.concat("_").concat(subBrand).concat("_reviewer_group");
+        return brand.concat("-").concat(subBrand).concat("-reviewer-group");
     }
 }

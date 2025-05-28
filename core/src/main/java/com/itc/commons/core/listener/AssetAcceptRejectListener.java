@@ -1,5 +1,6 @@
 package com.itc.commons.core.listener;
 
+import com.itc.commons.core.util.CampaignPathParser;
 import com.itc.commons.core.services.AssetRejectionService;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.Group;

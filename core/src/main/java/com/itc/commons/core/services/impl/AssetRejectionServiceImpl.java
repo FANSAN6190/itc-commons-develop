@@ -1,6 +1,6 @@
 package com.itc.commons.core.services.impl;
 import com.day.cq.commons.Externalizer;
-import com.itc.commons.core.classVariable.CampaignPathParser;
+import com.itc.commons.core.util.CampaignPathParser;
 import com.itc.commons.core.services.AssetRejectionService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;
@@ -14,7 +14,6 @@ import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.mail.MessagingException;
-import java.io.Externalizable;
 
 /**
  * Service implementation to handle DAM asset rejection.
@@ -163,8 +162,8 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      * @return the mapped agency group ID
      */
     private String resolveGroupAgency(String reviewerGroup) {
-        if (reviewerGroup.contains("_reviewer_")) {
-            return reviewerGroup.replace("_reviewer_", "_agency_");
+        if (reviewerGroup.contains("-reviewer-")) {
+            return reviewerGroup.replace("-reviewer-", "-agency-");
         } else {
             log.error("reviewer name convention is invalid, {}",reviewerGroup);
         }
