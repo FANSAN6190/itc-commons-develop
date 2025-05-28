@@ -64,6 +64,6 @@ public class GroupServiceImpl implements GroupService {
    * @return
    */
   private boolean isValidGroup(String groupId) {
-    return groupId != null && groupId.toLowerCase().startsWith("itc") && groupId.toLowerCase().contains("agency");
+    return groupId != null && groupId.toLowerCase().contains("agency");
   }
 }

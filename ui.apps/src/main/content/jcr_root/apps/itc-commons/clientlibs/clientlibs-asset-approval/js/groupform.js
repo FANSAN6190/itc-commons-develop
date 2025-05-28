@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const brand = document.getElementById("brandSelect");
   const subBrand = document.getElementById("subBrandSelect");
   const campaignName = document.getElementById("campaignName");
+  const campaignDescription = document.getElementById("campaignDescription");
   const group = document.getElementById("groupDisplay"); // now input field
   const resourcePath = document.querySelector(".group-form-container").dataset.resourcepath;
 
@@ -135,6 +136,8 @@ document.addEventListener("DOMContentLoaded", function () {
       subBrandDisplay: selectedSubBrandDisplay,
       campaignName: campaignName.value,
       group: group.value // value from generated input
+      campaignDescription: campaignDescription.value,
+      group: group.value
     };
 
     try {
