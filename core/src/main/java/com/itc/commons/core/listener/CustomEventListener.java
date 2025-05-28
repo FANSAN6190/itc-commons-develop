@@ -77,11 +77,13 @@ public class CustomEventListener implements ResourceChangeListener {
                             Authorizable user = userManager.getAuthorizable(userId);
                             if (user != null) {
                                 Iterator<Group> groups = user.memberOf();
-                                groups.next();
-                                if (groups.hasNext()) {
-                                    String reviewerGroupName = "Biscuits-Sunfeast-reviewer-group";//reviewerMap.get(groups.next().getID());
-                                    logger.info("Reviewer Group ID : {}", reviewerGroupName);
-                                    assetNotificationService.notifyNewAsset(reviewerGroupName, fullAssetUrl, resolver);
+
+                                String groupNameFromPath = new CampaignPathParser(assetPath).getAgencyGroupName();
+                                while (groups.hasNext()) {
+                                    if(groupNameFromPath.equals(groups.next().getID())) {
+                                        assetNotificationService.notifyNewAsset(groupNameFromPath, fullAssetUrl, resolver);
+                                        logger.info("Group Id of Agency Asset Uploader : {}", groupNameFromPath);
+                                    }
                                 }
                             }
                         }
