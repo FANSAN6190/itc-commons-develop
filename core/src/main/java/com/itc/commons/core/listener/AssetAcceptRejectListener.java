@@ -54,10 +54,14 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                         Authorizable user = userManager.getAuthorizable(userId);
                         if (user != null) {
                             Iterator<Group> groups = user.memberOf();
-                            groups.next();
-                            if (groups.hasNext()) {
-                                groupName = groups.next().getID();
-                                log.info("Group Id of Reviewer : {}", groupName);
+                            String assetPath = changes.get(0).getPath().replace("/jcr:content/metadata", "");
+                            String groupNameFromPath = new CampaignPathParser(assetPath).getReviewerGroupName();
+
+                            while (groups.hasNext()) {
+                                if(groupNameFromPath.equals(groups.next().getID())) {
+                                    groupName = groupNameFromPath;
+                                    log.info("Group Id of Reviewer : {}", groupName);
+                                }
                             }
                         }
                     }
