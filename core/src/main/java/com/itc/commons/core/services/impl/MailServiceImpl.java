@@ -1,12 +1,6 @@
 package com.itc.commons.core.services.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.util.*;
-import javax.jcr.RepositoryException;
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
+import com.itc.commons.core.services.MailService;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.Group;
 import org.apache.jackrabbit.api.security.user.User;
@@ -21,7 +15,16 @@ import org.osgi.service.metatype.annotations.Designate;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.itc.commons.core.services.MailService;
+
+import javax.jcr.RepositoryException;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 @Component(service = MailService.class, immediate = true)
 @Designate(ocd = MailServiceImpl.MailServiceConfig.class)

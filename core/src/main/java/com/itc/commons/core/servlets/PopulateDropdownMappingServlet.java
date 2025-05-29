@@ -1,23 +1,23 @@
 package com.itc.commons.core.servlets;
 
-import static com.adobe.granite.rest.Constants.CT_JSON;
-import static com.itc.commons.core.utils.GsonUtil.GSON;
-
 import com.google.gson.JsonObject;
 import com.itc.commons.core.services.DropdownMappingService;
-import java.io.PrintWriter;
-import javax.jcr.RepositoryException;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-
-import javax.servlet.Servlet;
-import java.io.IOException;
 import org.osgi.framework.Constants;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.jcr.RepositoryException;
+import javax.servlet.Servlet;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import static com.adobe.granite.rest.Constants.CT_JSON;
+import static com.itc.commons.core.utils.GsonUtil.GSON;
 
 @Component(
   service = Servlet.class,

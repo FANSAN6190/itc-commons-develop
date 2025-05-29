@@ -1,10 +1,6 @@
 package com.itc.commons.core.services.impl;
 
-import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import com.itc.commons.core.services.AssetNotificationService;
-
-import javax.mail.MessagingException;
-
 import com.itc.commons.core.services.MailService;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
@@ -12,7 +8,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
+import javax.mail.MessagingException;
 
 @Component(service = AssetNotificationService.class, immediate = true)
 public class AssetNotificationServiceImpl implements AssetNotificationService {
@@ -29,10 +25,10 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
       return;
     }
 
-    String message = "<p>Dear Reviewer,</p>"
-            + "<p>A new asset has been uploaded and is pending for review:</p>"
-            + "<p><strong>Asset Path:</strong> " + assetPath + "</p>"
-            + "<p>Regards,<br/>Digital Asset Management System</p>";
+    String message = "<p>Dear " + reviewerGroupName + ",</p>"
+            + "<p>A new asset has been uploaded and is pending for review:<br>"
+            + "<strong>Asset Path:</strong> " + assetPath + "</p>"
+            + "<p>Regards,<br>Digital Asset Management System</p>";
 
     String subject = "New Asset Uploaded Notification";
 

@@ -46,14 +46,13 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      * @param campaignDescription reason for removal of rejection
      * @param finalAssetPath the path of dam with localhost and everything
      */
-    String getMessageForEmail(String agencyName,String campaignName,String campaignDescription,String finalAssetPath)
+    String getMessageForEmail(String agencyName, String campaignName,String campaignDescription,String finalAssetPath)
     {
         String message="<p>Dear ".concat(agencyName).concat(",</p>")
-                .concat("<p>You are requested to review you asset as it has been rejected on path:<br>")
-                .concat("Campaign request for ").concat(campaignName).concat(" has been Rejected:</p>")
-                .concat("<p>").concat(campaignDescription).concat("</p>")
-                .concat("<p>").concat("<p>Please upload the asset (once available) with required changes to following path: <br>")
-                .concat(finalAssetPath).concat("</p>")
+                .concat("<p>Campaign request for ").concat(campaignName).concat(" has been Rejected:<br>")
+                .concat(campaignDescription).concat("</p>")
+                .concat("<p>Please upload the asset (once available) with required changes to following path: <br>")
+                .concat("<strong>Asset Path:</strong> ").concat(finalAssetPath).concat("</p>")
                 .concat("<p>Regards<br>Digital Asset Management System</p>");
         log.info("Message for email is {}:",message);
         return message;

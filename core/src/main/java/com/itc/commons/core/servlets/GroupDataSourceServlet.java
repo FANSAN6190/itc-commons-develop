@@ -1,22 +1,10 @@
 package com.itc.commons.core.servlets;
 
-import static com.adobe.granite.rest.Constants.CT_JSON;
-import static com.itc.commons.core.utils.GsonUtil.GSON;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.itc.commons.core.services.GroupService;
-
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-import java.util.Map;
-import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletResponse;
-
-import com.itc.commons.core.services.impl.DamHierarchyCreatorServiceImpl;
 import com.itc.commons.core.services.MailService;
+import com.itc.commons.core.services.impl.DamHierarchyCreatorServiceImpl;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.resource.LoginException;
@@ -29,9 +17,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.jcr.RepositoryException;
+import javax.mail.MessagingException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.Map;
+
+import static com.adobe.granite.rest.Constants.CT_JSON;
+import static com.itc.commons.core.utils.GsonUtil.GSON;
 
 /**
  * Return fetched groups as a JSON response
@@ -123,7 +120,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
                     .concat("<p>Campaign request for " + campaignName + " has been created with below description:<br>")
                     .concat(campaignDescription + "</p>")
                     .concat("<p>Please upload the asset (once available) to following path:<br>")
-                    .concat("Asset Path: ").concat(finalPath).concat("</p>")
+                    .concat("<strong>Asset Path:</strong> ").concat(finalPath).concat("</p>")
                     .concat("<p>Regards,<br>Digital Asset Management System</p>");
 
             mailService.sendEmail(group, resourceResolver, message, subject, true);
