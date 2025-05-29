@@ -103,7 +103,9 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     @Override
     public void handleAssetRejectionToGroup(String assetPath, String campaignDescription, ResourceResolver resolver, String reviewerGroup) throws RepositoryException {
         propertyCheck(assetPath,resolver,reviewerGroup);
-        String AssetCleanedPath = assetPath.replace("/jcr:content", "");
+        String CleanedPath = assetPath.replace("/jcr:content", "");
+        String AssetCleanedPath = "/assets.html".concat(CleanedPath);
+
         CampaignPathParser campaignPathParser=new CampaignPathParser(AssetCleanedPath);
         String brandName=campaignPathParser.getBrand();
         String campaignName=campaignPathParser.getCampaign();
