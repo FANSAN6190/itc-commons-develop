@@ -2,9 +2,10 @@ package com.itc.commons.core.services.impl;
 
 import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import com.itc.commons.core.services.AssetNotificationService;
-import com.itc.commons.core.services.MailService;
 
 import javax.mail.MessagingException;
+
+import com.itc.commons.core.services.MailService;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -36,9 +37,9 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
     String subject = "New Asset Uploaded Notification";
 
     try {
-      mailService.sendEmail(reviewerGroupName, resourceResolver, message, subject);
+      mailService.sendEmail(reviewerGroupName, resourceResolver, message, subject, true);
       LOGGER.info("Notification email sent successfully for asset path: {}", assetPath);
-    }catch (MessagingException | UnsupportedEncodingException e) {
+    }catch (MessagingException e) {
       LOGGER.error("Failed to send notification : {}", e.getMessage());
     }
   }

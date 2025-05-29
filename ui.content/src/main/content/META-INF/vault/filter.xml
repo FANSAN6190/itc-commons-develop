@@ -20,5 +20,5 @@
     <filter root="/etc/map.publish.stage/https/stage.familylikefriends_com"/>
     <filter root="/etc/map.publish.prod/https/beta.familylikefriends_com"/>
     <filter root="/content/asset-approval"/>
-
+    <filter root="/conf/global/settings/dam/adminui-extension/metadataschema/default" mode="update"/>
 </workspaceFilter>

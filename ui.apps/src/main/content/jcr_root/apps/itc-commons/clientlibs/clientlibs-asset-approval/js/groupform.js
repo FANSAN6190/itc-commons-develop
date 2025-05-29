@@ -12,7 +12,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const brand = document.getElementById("brandSelect");
   const subBrand = document.getElementById("subBrandSelect");
   const campaignName = document.getElementById("campaignName");
+  const campaignDescription = document.getElementById("campaignDescription");
   const group = document.getElementById("groupDisplay");
+
   const resourcePath = document.querySelector(".group-form-container").dataset.resourcepath;
 
   const loaderOverlay = document.querySelector(".loader-overlay");
@@ -132,6 +134,7 @@ form.addEventListener("submit", async function (e) {
     subBrand: selectedSubBrandKey,
     subBrandDisplay: selectedSubBrandDisplay,
     campaignName: campaignName.value,
+    campaignDescription: campaignDescription.value,
     group: group.value
   };
 
@@ -151,16 +154,13 @@ form.addEventListener("submit", async function (e) {
     const response = await res.json();
 
     if (!res.ok || response.error) {
-      // Hide loader
       loaderOverlay.classList.remove("active");
       formContainer.classList.remove("blur");
 
-      // Show error overlay with message
       errorOverlay.querySelector(".error-message").textContent =
         response.error || "There was an error submitting the form.";
       errorOverlay.classList.add("show");
 
-      // Hide error overlay after 2.5s
       setTimeout(() => {
         errorOverlay.classList.remove("show");
       }, 2500);
@@ -168,17 +168,14 @@ form.addEventListener("submit", async function (e) {
       return;
     }
 
-    // Hide loader, show success tick
     loaderOverlay.classList.remove("active");
     successOverlay.classList.add("show");
 
-    // Hide success overlay after 2s
     setTimeout(() => {
       successOverlay.classList.remove("show");
       formContainer.classList.remove("blur");
     }, 2000);
 
-    // Reset form
     form.reset();
     brand.disabled = true;
     subBrand.disabled = true;
@@ -187,16 +184,13 @@ form.addEventListener("submit", async function (e) {
   } catch (error) {
     console.error("Submission error:", error);
 
-    // Hide loader
     loaderOverlay.classList.remove("active");
     formContainer.classList.remove("blur");
 
-    // Show error overlay with fallback message
     errorOverlay.querySelector(".error-message").textContent =
       "There was an error submitting the form.";
     errorOverlay.classList.add("show");
 
-    // Hide error overlay after 2.5s
     setTimeout(() => {
       errorOverlay.classList.remove("show");
     }, 2500);
