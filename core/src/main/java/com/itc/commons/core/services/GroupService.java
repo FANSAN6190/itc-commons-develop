@@ -8,5 +8,5 @@ import java.util.Map;
 
 
 public interface GroupService {
-  List<Map<String, String>> fetchGroups(ResourceResolver resolver) throws RepositoryException;
+  public boolean isValidAgencyGroup(String groupName, ResourceResolver resolver) throws RepositoryException;
 }

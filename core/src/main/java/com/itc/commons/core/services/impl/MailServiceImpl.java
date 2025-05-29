@@ -52,6 +52,7 @@ public class MailServiceImpl implements MailService  {
     Session session = getSession();
     MimeMessage mimeMessage;
 
+
     try {
       List<String> userEmail = getEmail(userOrGroupName, isGroup, resourceResolver);
 

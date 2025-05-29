@@ -13,8 +13,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const subBrand = document.getElementById("subBrandSelect");
   const campaignName = document.getElementById("campaignName");
   const campaignDescription = document.getElementById("campaignDescription");
-  const group = document.getElementById("groupDisplay"); // now input field
+  const group = document.getElementById("groupDisplay");
+
   const resourcePath = document.querySelector(".group-form-container").dataset.resourcepath;
+
+  const loaderOverlay = document.querySelector(".loader-overlay");
+  const successOverlay = document.querySelector(".success-overlay");
+    const errorOverlay = document.querySelector(".error-overlay");
+  const formContainer = document.querySelector(".group-form-container");
 
   brand.disabled = true;
   subBrand.disabled = true;
@@ -43,16 +49,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   resetAndPopulate(category, categoryMap);
 
-  fetch(resourcePath)
-    .then(res => res.json())
-    .then(data => {
-      // No longer used because group is a readonly field
-      // Kept for compatibility if needed
-    })
-    .catch(err => {
-      console.error("Error loading groups:", err);
-    });
-
   category.addEventListener("change", function () {
     const selectedCategoryKey = category.value;
     let selectedCategoryDisplay = "";
@@ -73,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resetAndPopulate(brand, brandMap);
     resetAndPopulate(subBrand, {});
-    group.value = ""; // Reset group name on category change
+    group.value = "";
   });
 
   brand.addEventListener("change", function () {
@@ -107,67 +103,98 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resetAndPopulate(subBrand, subBrandMap);
 
-    // ✅ Update group field
     if (selectedCategoryDisplay && selectedBrandDisplay) {
-      group.value = `${selectedCategoryDisplay}-${selectedBrandDisplay}-agency-group`;
+      group.value = `${selectedCategoryKey}-${selectedBrandKey}-agency-group`;
     } else {
       group.value = "";
     }
   });
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const loader = document.querySelector(".loader");
-    loader.classList.remove("hidden");
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
 
-    const selectedCategoryKey = category.value;
-    const selectedBrandKey = brand.value;
-    const selectedSubBrandKey = subBrand.value;
-    const selectedCategoryDisplay = category.options[category.selectedIndex]?.dataset.display;
-    const selectedBrandDisplay = brand.options[brand.selectedIndex]?.dataset.display;
-    const selectedSubBrandDisplay = subBrand.options[subBrand.selectedIndex]?.dataset.display;
+  successOverlay.classList.remove("show");
+  errorOverlay.classList.remove("show");
 
-    const formData = {
-      category: selectedCategoryKey,
-      categoryDisplay: selectedCategoryDisplay,
-      brand: selectedBrandKey,
-      brandDisplay: selectedBrandDisplay,
-      subBrand: selectedSubBrandKey,
-      subBrandDisplay: selectedSubBrandDisplay,
-      campaignName: campaignName.value,
-      group: group.value // value from generated input
-      campaignDescription: campaignDescription.value,
-      group: group.value
-    };
+  loaderOverlay.classList.add("active");
+  formContainer.classList.add("blur");
 
-    try {
-      const csrfToken = await getCsrfToken();
+  const selectedCategoryKey = category.value;
+  const selectedBrandKey = brand.value;
+  const selectedSubBrandKey = subBrand.value;
+  const selectedCategoryDisplay = category.options[category.selectedIndex]?.dataset.display;
+  const selectedBrandDisplay = brand.options[brand.selectedIndex]?.dataset.display;
+  const selectedSubBrandDisplay = subBrand.options[subBrand.selectedIndex]?.dataset.display;
 
-      const res = await fetch("/bin/groupdatasource", {
-        method: "POST",
-        credentials: 'same-origin',
-        headers: {
-          "Content-Type": "application/json",
-          "CSRF-Token": csrfToken
-        },
-        body: JSON.stringify(formData)
-      });
+  const formData = {
+    category: selectedCategoryKey,
+    categoryDisplay: selectedCategoryDisplay,
+    brand: selectedBrandKey,
+    brandDisplay: selectedBrandDisplay,
+    subBrand: selectedSubBrandKey,
+    subBrandDisplay: selectedSubBrandDisplay,
+    campaignName: campaignName.value,
+    campaignDescription: campaignDescription.value,
+    group: group.value
+  };
 
-      if (!res.ok) throw new Error("Network response was not ok");
-      const response = await res.json();
+  try {
+    const csrfToken = await getCsrfToken();
 
-      alert("Form submitted successfully!");
-      console.log("Success:", response);
-      form.reset();
-      brand.disabled = true;
-      subBrand.disabled = true;
-      group.value = "";
+    const res = await fetch("/bin/groupdatasource", {
+      method: "POST",
+      credentials: 'same-origin',
+      headers: {
+        "Content-Type": "application/json",
+        "CSRF-Token": csrfToken
+      },
+      body: JSON.stringify(formData)
+    });
 
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("There was an error submitting the form.");
-    } finally {
-      loader.classList.add("hidden");
+    const response = await res.json();
+
+    if (!res.ok || response.error) {
+      loaderOverlay.classList.remove("active");
+      formContainer.classList.remove("blur");
+
+      errorOverlay.querySelector(".error-message").textContent =
+        response.error || "There was an error submitting the form.";
+      errorOverlay.classList.add("show");
+
+      setTimeout(() => {
+        errorOverlay.classList.remove("show");
+      }, 2500);
+
+      return;
     }
-  });
+
+    loaderOverlay.classList.remove("active");
+    successOverlay.classList.add("show");
+
+    setTimeout(() => {
+      successOverlay.classList.remove("show");
+      formContainer.classList.remove("blur");
+    }, 2000);
+
+    form.reset();
+    brand.disabled = true;
+    subBrand.disabled = true;
+    group.value = "";
+
+  } catch (error) {
+    console.error("Submission error:", error);
+
+    loaderOverlay.classList.remove("active");
+    formContainer.classList.remove("blur");
+
+    errorOverlay.querySelector(".error-message").textContent =
+      "There was an error submitting the form.";
+    errorOverlay.classList.add("show");
+
+    setTimeout(() => {
+      errorOverlay.classList.remove("show");
+    }, 2500);
+  }
+});
+
 });
