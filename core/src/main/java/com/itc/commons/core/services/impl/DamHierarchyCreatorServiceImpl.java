@@ -53,7 +53,6 @@ public class DamHierarchyCreatorServiceImpl {
         return resourceResolver.adaptTo(Session.class);
     }
 
-
     /**
      * Creates DAM node Structure for given array of node names
      * @param nodes
