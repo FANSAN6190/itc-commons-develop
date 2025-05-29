@@ -1,6 +1,6 @@
 package com.itc.commons.core.services.impl;
 import com.day.cq.commons.Externalizer;
-import com.itc.commons.core.classVariable.CampaignPathParser;
+import com.itc.commons.core.Util.CampaignPathParser;
 import com.itc.commons.core.services.AssetRejectionService;
 import com.itc.commons.core.services.MailService;
 import org.apache.commons.lang3.StringUtils;
