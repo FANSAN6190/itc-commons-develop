@@ -63,27 +63,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
      * @throws ServletException in case of servlet-level issues
      * @throws IOException if an input/output error occurs
      */
-    @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            List<Map<String, String>> groups = groupService.fetchGroups(request.getResourceResolver());
-            writeJsonResponse(response, groups, HttpServletResponse.SC_OK);
-
-        } catch (RepositoryException e) {
-            log.error("Error while fetching group data: {}", e.getMessage(), e);
-            writeJsonResponse(response,
-                    Map.of("error", "Internal Server Error while fetching groups"),
-                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     *
-     * @param request HTTP request to post form data
-     * @param response HTTP response after performing operation
-     * @throws IOException if an input/output error occurs
-     */
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 
@@ -103,6 +83,16 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
 
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+            String groupName = jsonObject.get("group").getAsString().toLowerCase();
+            log.info("Group name received: {}", groupName);
+
+            if (!groupService.isValidAgencyGroup(groupName, resourceResolver)) {
+                log.warn("Group '{}' is not valid or does not exist.", groupName);
+                writeJsonResponse(response, Map.of("error", "This group "+groupName+ " doesn't exist, kindly create this group "), HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+
 
             String[] damNodes = {jsonObject.get("category").getAsString(), jsonObject.get("brand").getAsString(), jsonObject.get("subBrand").getAsString(), jsonObject.get("campaignName").getAsString().toLowerCase().replace(" ", "-")};
             damHierarchyCreatorService.createNodeStructure(damNodes);

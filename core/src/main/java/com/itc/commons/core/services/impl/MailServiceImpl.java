@@ -52,7 +52,7 @@ public class MailServiceImpl implements MailService {
     MimeMessage mimeMessage;
 
     List<String> userEmail = getEmailsFromGroup(groupName, resourceResolver);
-//    if (userEmail != null && !userEmail.isEmpty()) {
+    if (userEmail != null && !userEmail.isEmpty()) {
     mimeMessage = getMimeMessage(session, fromAddress, userEmail);
     LOGGER.info("MimeMessage constructed successfully.");
 
@@ -64,9 +64,9 @@ public class MailServiceImpl implements MailService {
 
     sendMessage(session, mimeMessage);
     LOGGER.info("Email sent");
-//    } else {
-//      throw new MessagingException("Group has either no user or associated user has no email");
-//    }
+    } else {
+      throw new MessagingException("Group has either no user or associated user has no email");
+    }
   }
 
   private Session getSession() {
