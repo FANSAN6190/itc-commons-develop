@@ -42,10 +42,10 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
 
     /**
      * Method to make message draft for email
-     * @param agencyName name of agency user or agency group
-     * @param campaignName name of campaign
-     * @param campaignDescription reason for removal of rejection
-     * @param finalAssetPath the path of dam with localhost and everything
+     * @param agencyName            name of agency user or agency group
+     * @param campaignName          name of campaign
+     * @param campaignDescription   reason for removal of rejection
+     * @param finalAssetPath        the path of dam with localhost and everything
      */
     String getMessageForEmail(String agencyName,String campaignName,String campaignDescription,String finalAssetPath)
     {
@@ -65,7 +65,7 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      * Property checks for status approval and null checks
      *
      * @param assetPath     path of the DAM asset
-     * @param agency  ID of the reviewerGroup
+     * @param agency        ID of the reviewerGroup
      * @param resolver      resource resolver for accessing JCR content
      */
     void propertyCheck(String assetPath, ResourceResolver resolver,String agency) throws RepositoryException {
@@ -95,10 +95,10 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     /**
      * Handles the rejection logic for a DAM asset.
      *
-     * @param assetPath     path of the DAM asset
+     * @param assetPath           path of the DAM asset
      * @param campaignDescription description for why asset got rejected
-     * @param resolver      resource resolver for accessing JCR content
-     * @param reviewerGroup ID of the reviewerGroup
+     * @param resolver            resource resolver for accessing JCR content
+     * @param reviewerGroup       ID of the reviewerGroup
      */
     @Override
     public void handleAssetRejectionToGroup(String assetPath, String campaignDescription, ResourceResolver resolver, String reviewerGroup) throws RepositoryException {
@@ -129,10 +129,10 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     /**
      * Handles the rejection logic for a DAM asset and send to user only.
      *
-     * @param assetPath     path of the DAM asset
+     * @param assetPath           path of the DAM asset
      * @param campaignDescription description for why asset got rejected
-     * @param resolver      resource resolver for accessing JCR content
-     * @param agencyUser ID of the agencyUser
+     * @param resolver            resource resolver for accessing JCR content
+     * @param agencyUser          ID of the agencyUser
      */
     @Override
     public void handleAssetRejectionToUser(String assetPath, String campaignDescription, ResourceResolver resolver,String agencyUser) throws RepositoryException {
@@ -162,7 +162,7 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      * Resolves the agency group based on reviewer.
      *
      * @param reviewerGroup the ID of the reviewer
-     * @return the mapped agency group ID
+     * @return              the mapped agency group ID
      */
     private String resolveGroupAgency(String reviewerGroup) {
         if (reviewerGroup.contains("-reviewer-")) {
