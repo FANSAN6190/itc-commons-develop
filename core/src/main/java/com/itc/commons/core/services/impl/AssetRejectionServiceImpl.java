@@ -1,6 +1,6 @@
 package com.itc.commons.core.services.impl;
 import com.day.cq.commons.Externalizer;
-import com.itc.commons.core.util.CampaignPathParser;
+import com.itc.commons.core.utils.CampaignPathParser;
 import com.itc.commons.core.services.AssetRejectionService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.resource.Resource;

@@ -1,6 +1,7 @@
 package com.itc.commons.core.servlets;
 
 import static com.adobe.granite.rest.Constants.CT_JSON;
+import static com.itc.commons.core.utils.GsonUtil.GSON;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -47,8 +48,7 @@ import java.io.IOException;
 )
 public class GroupDataSourceServlet extends SlingAllMethodsServlet {
 
-    private static final Logger log = LoggerFactory.getLogger(GroupDataSourceServlet.class);
-    private static final Gson GSON = new Gson();
+    private static final Logger logger = LoggerFactory.getLogger(GroupDataSourceServlet.class);
 
     @Reference
     private GroupService groupService;
@@ -67,7 +67,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 
-        log.info("Received POST request Form");
+        logger.info("Received POST request Form");
 
         try (ResourceResolver resourceResolver = request.getResourceResolver()) {
 
@@ -84,10 +84,10 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
             String groupName = jsonObject.get("group").getAsString().toLowerCase();
-            log.info("Group name received: {}", groupName);
+            logger.info("Group name received: {}", groupName);
 
             if (!groupService.isValidAgencyGroup(groupName, resourceResolver)) {
-                log.warn("Group '{}' is not valid or does not exist.", groupName);
+                logger.warn("Group '{}' is not valid or does not exist.", groupName);
                 writeJsonResponse(response, Map.of("error", "This group "+groupName+ " doesn't exist, kindly create this group "), HttpServletResponse.SC_BAD_REQUEST);
                 return;
             }
@@ -128,12 +128,12 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
 
             mailService.sendEmail(group, resourceResolver, message, subject, true);
             writeJsonResponse(response, "Email sent to all users successfully", 200);
-            log.info("Email sent to all users successfully");
+            logger.info("Email sent to all users successfully");
         } catch (LoginException | RepositoryException e) {
-            log.error("Failure in DAM Hierarchy creation service : {}", e.getMessage());
+            logger.error("Failure in DAM Hierarchy creation service : {}", e.getMessage());
             writeJsonResponse(response, e.getMessage(), 500);
         } catch (MessagingException | UnsupportedEncodingException e) {
-            log.error("Email service not working : {}", e.getMessage());
+            logger.error("Email service not working : {}", e.getMessage());
             writeJsonResponse(response, e.getMessage(), 500);
         }
     }
