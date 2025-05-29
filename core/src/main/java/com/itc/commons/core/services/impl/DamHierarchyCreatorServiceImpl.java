@@ -13,6 +13,7 @@ import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class DamHierarchyCreatorServiceImpl {
     ResourceResolverFactory resolverFactory;
 
 
-    private static final Logger log = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+    private static final Logger log = LoggerFactory.getLogger(DamHierarchyCreatorServiceImpl.class);
 
 
     String[] nodesInStructure = {"itc", "marketing-campaign"};
@@ -35,27 +36,31 @@ public class DamHierarchyCreatorServiceImpl {
         try {
             Session session =initSession();
             if(session!=null) {
-                Node parentNode = session.getNode(PARENT_NODE_PATH);
-                parentNode = createDamNode(parentNode, nodesInStructure[0],"sling:Folder");
-                PARENT_NODE_PATH=PARENT_NODE_PATH.concat("/"+nodesInStructure[0]);
-                parentNode = createDamNode(parentNode, nodesInStructure[1],"sling:Folder");
-                PARENT_NODE_PATH = PARENT_NODE_PATH.concat("/"+nodesInStructure[1]);
+                createNodeStructure(nodesInStructure);
+                PARENT_NODE_PATH= PARENT_NODE_PATH+"/"+nodesInStructure[0]+"/"+nodesInStructure[1];
                 log.info("Initial Dam Structure Created");
                 session.save();
             }
         } catch (LoginException | RepositoryException e) {
-            throw new RuntimeException("Error during DAM hierarchy initiation : "+ e.getMessage());
+            throw new RuntimeException("Error while Initial DAM Structure creation : "+e.getMessage());
         }
     }
 
-    public Session initSession() throws LoginException {
+    private Session initSession() throws LoginException {
         Map<String, Object> authInfo = new HashMap<>();
         authInfo.put(ResourceResolverFactory.SUBSERVICE, "asset-approval-service-user");
         ResourceResolver resourceResolver = resolverFactory.getServiceResourceResolver(authInfo);
         return resourceResolver.adaptTo(Session.class);
     }
 
-    public void createNodeStructure(String[] nodes) {
+
+    /**
+     * Creates DAM node Structure for given array of node names
+     * @param nodes
+     * @throws RepositoryException
+     * @throws LoginException
+     */
+    public void createNodeStructure(String[] nodes) throws RepositoryException, LoginException {
         try {
             Session session = initSession();
             Node parentNode = session.getNode(PARENT_NODE_PATH);
@@ -65,18 +70,15 @@ public class DamHierarchyCreatorServiceImpl {
             session.save();
             log.info("DAM nodes structure created");
         } catch (PathNotFoundException e){
-            log.error("Parent path does not exist");
-            throw new RuntimeException("Parent path does not exist");
-        }
-        catch (RepositoryException e) {
-            log.error("Error during node structure creation of : {}", Arrays.toString(nodes));
-            throw new RuntimeException("Error during node structure creation of '"+ Arrays.toString(nodes)+"' : "+e.getMessage());
+            throw new PathNotFoundException("Parent path does not exist");
+        } catch (RepositoryException e) {
+            throw new RepositoryException("Error during node structure creation of '"+ Arrays.toString(nodes)+"' : "+e.getMessage());
         } catch (LoginException e) {
-            throw new RuntimeException("Error while session initiation : "+e.getMessage() );
+            throw new LoginException("Error while session initiation : "+e.getMessage() );
         }
     }
 
-    public Node createDamNode(Node parentNode, String newNode, String nodeType) throws RepositoryException {
+    private Node createDamNode(Node parentNode, String newNode, String nodeType) throws RepositoryException {
         if(parentNode!=null){
             if (!parentNode.hasNode(newNode)){
                 parentNode.addNode(newNode, nodeType);
@@ -85,5 +87,25 @@ public class DamHierarchyCreatorServiceImpl {
             parentNode = parentNode.getNode(newNode);
         }
         return parentNode;
+    }
+
+    /**
+     * Sets jcr property with given value of a node
+     * @param nodePath
+     * @param propertyName
+     * @param propertyValue
+     */
+    public void setNodeProperty(String nodePath, String propertyName, String propertyValue){
+        try {
+            Session session = initSession();
+            Node node = session.getNode(nodePath);
+            node.setProperty(propertyName,propertyValue);
+            log.info("property '{}' added successfully", propertyName);
+            session.save();
+        } catch (LoginException e) {
+            log.error("Error while getting session : {}",e.getMessage());
+        } catch (RepositoryException e) {
+            log.error("Error while setting property : {}",e.getMessage());
+        }
     }
 }

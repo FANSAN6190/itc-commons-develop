@@ -30,40 +30,34 @@ public class GroupServiceImpl implements GroupService {
    * @return
    * @throws RepositoryException
    */
-  @Override
-  public List<Map<String, String>> fetchGroups(ResourceResolver resolver) throws RepositoryException {
-    List<Map<String, String>> groups = new ArrayList<>();
-    UserManager userManager = resolver.adaptTo(UserManager.class);
 
+  @Override
+  public boolean isValidAgencyGroup(String groupName, ResourceResolver resolver) throws RepositoryException {
+    if (groupName == null || groupName.isBlank()) {
+      LOG.warn("Group name is null or blank.");
+      return false;
+    }
+
+    LOG.info("Checking if group exists with name: {}", groupName);
+
+    UserManager userManager = resolver.adaptTo(UserManager.class);
     if (userManager == null) {
-      LOG.info("UserManager is null. Cannot fetch groups.");
+      LOG.error("UserManager is null. Cannot validate group.");
       throw new RepositoryException("UserManager is null.");
     }
 
-    Iterator<Authorizable> allAuthorizables = userManager.findAuthorizables("rep:authorizableId", null);
-
-    while (allAuthorizables.hasNext()) {
-      Authorizable authorizable = allAuthorizables.next();
-      if (authorizable.isGroup()) {
-        String groupId = authorizable.getID();
-        if (isValidGroup(groupId)) {
-          Map<String, String> groupMap = new HashMap<>();
-          groupMap.put("value", groupId.toUpperCase());
-          groupMap.put("text", groupId.toUpperCase());
-          groups.add(groupMap);
-        }
+    try {
+      Authorizable authorizable = userManager.getAuthorizable(groupName);
+      if (authorizable != null && authorizable.isGroup()) {
+        LOG.info("Group found: {}", groupName);
+        return true;
+      } else {
+        LOG.warn("Group not found or is not a group: {}", groupName);
+        return false;
       }
+    } catch (RepositoryException e) {
+      LOG.error("Error while checking group existence for '{}'", groupName, e);
+      throw e;
     }
-
-    return groups;
-  }
-
-  /**
-   *
-   * @param groupId
-   * @return
-   */
-  private boolean isValidGroup(String groupId) {
-    return groupId != null && groupId.toLowerCase().startsWith("itc") && groupId.toLowerCase().contains("agency");
   }
 }
