@@ -10,7 +10,6 @@ import com.itc.commons.core.services.GroupService;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
@@ -112,10 +111,10 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
 
-            String path = "/assets.html/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
-            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", "Campaign for specific need");
+            String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", campaignDescription);
 
-            String finalPath = scheme + "://" + serverName + ":" + port + path;
+            String finalPath = scheme + "://" + serverName + ":" + port + "/assets.html" + path;
 
             String subject = brandDisplay + " | " + campaignName + " Creative Request";
 

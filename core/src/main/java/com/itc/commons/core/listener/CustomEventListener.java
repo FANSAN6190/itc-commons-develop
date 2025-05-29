@@ -55,7 +55,6 @@ public class CustomEventListener implements ResourceChangeListener {
 
     @Override
     public void onChange(List<ResourceChange> changes) {
-        reviewerMap.put("Biscuits-Sunfeast-agency-group","Biscuits-Sunfeast-reviewer-group");
         Map<String, Object> params = new HashMap<>();
         params.put(ResourceResolverFactory.SUBSERVICE, SUBSERVICE_NAME);
 
