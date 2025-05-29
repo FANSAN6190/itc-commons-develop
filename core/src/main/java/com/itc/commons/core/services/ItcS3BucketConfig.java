@@ -1,7 +1,5 @@
 package com.itc.commons.core.services;
 
-
-
 import org.osgi.service.metatype.annotations.AttributeDefinition;
 import org.osgi.service.metatype.annotations.ObjectClassDefinition;
 

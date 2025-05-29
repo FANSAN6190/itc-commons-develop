@@ -1,12 +1,14 @@
 package com.itc.commons.core.services.impl;
 
-import static com.itc.commons.core.utils.ItcCommonsConstants.*;
-import com.itc.commons.core.services.DropdownMappingService;
 import com.google.gson.JsonObject;
-import javax.jcr.RepositoryException;
+import com.itc.commons.core.services.DropdownMappingService;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
+
+import javax.jcr.RepositoryException;
+
+import static com.itc.commons.core.utils.ItcCommonsConstants.*;
 
 @Component(service = DropdownMappingService.class, immediate = true)
 public class DropdownMappingServiceImpl implements DropdownMappingService {
