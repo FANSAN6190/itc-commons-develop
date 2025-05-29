@@ -1,4 +1,4 @@
-package com.itc.commons.core.util;
+package com.itc.commons.core.utils;
 
 public class CampaignPathParser {
 
