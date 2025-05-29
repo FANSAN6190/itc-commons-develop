@@ -15,7 +15,6 @@ import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.mail.MessagingException;
-import java.io.Externalizable;
 
 /**
  * Service implementation to handle DAM asset rejection.
@@ -50,7 +49,7 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
      */
     String getMessageForEmail(String agencyName,String campaignName,String campaignDescription,String finalAssetPath)
     {
-        String message="<p>Dear ".concat(agencyName).concat("</p>")
+        String message="<p>Dear ".concat(agencyName).concat(",</p>")
                 .concat("<p>You are requested to review you asset as it has been rejected on path:<br>")
                 .concat("Campaign request for ").concat(campaignName).concat(" has been Rejected:</p>")
                 .concat("<p>").concat(campaignDescription).concat("</p>")
@@ -60,6 +59,7 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
         log.info("Message for email is {}:",message);
         return message;
     }
+
 
     /**
      * Property checks for status approval and null checks

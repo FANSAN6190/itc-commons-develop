@@ -107,6 +107,5 @@ public class DamHierarchyCreatorServiceImpl {
         } catch (RepositoryException e) {
             log.error("Error while setting property : {}",e.getMessage());
         }
-
     }
 }
