@@ -26,7 +26,9 @@ import java.util.Map;
         property = {
                 ResourceChangeListener.PATHS + "=glob:/content/dam/itc/marketing-campaign/*/*/*/*/*/jcr:content",
                 ResourceChangeListener.CHANGES + "=CHANGED",
-                ResourceChangeListener.PROPERTY_NAMES_HINT + "=approval"
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=approval",
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=review",
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=sendto"
         })
 public class AssetAcceptRejectListener implements ResourceChangeListener {
 
@@ -56,9 +58,7 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                         Authorizable user = userManager.getAuthorizable(userId);
                         if (user != null) {
                             Iterator<Group> groups = user.memberOf();
-                            String assetPath = changes.get(0).getPath().replace("/jcr:content/metadata", "");
-                            String groupNameFromPath = new CampaignPathParser(assetPath).getReviewerGroupName();
-
+                            String groupNameFromPath = new CampaignPathParser(changes.get(0).getPath()).getReviewerGroupName();
                             while (groups.hasNext()) {
                                 if(groupNameFromPath.equals(groups.next().getID())) {
                                     groupName = groupNameFromPath;
@@ -73,11 +73,18 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                 String path = change.getPath();
                 log.info("Asset Path : {}", path);
                 Resource resource = resourceResolver.getResource(path);
-                String status = null;
                 if (resource != null) {
-                    status = (String) resource.getValueMap().get("approval");
+                    String status = (String) resource.getValueMap().get("approval");
                     if(status.equals("reject")){
-                        assetRejectionService.handleAssetRejectionToGroup(path,"My name is something",resourceResolver, groupName);
+                        String review = (String) resource.getValueMap().get("review");
+                        String sendTo = (String) resource.getValueMap().get("sendto");
+                        if(sendTo.equals("group")){
+                            assetRejectionService.handleAssetRejectionToGroup(path,review,resourceResolver, groupName);
+                        } else if(sendTo.equals("single")) {
+                            String userId_value = resource.getParent().getValueMap().get("jcr:createdBy").toString();
+                            assetRejectionService.handleAssetRejectionToUser(path,review,resourceResolver, userId_value);
+                        }
+
                     } else if(status.equals("accept")){
                         log.info("Asset Approved");
                     } else {

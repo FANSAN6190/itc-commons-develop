@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.itc.commons.core.util.CampaignPathParser;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.Group;
 import org.apache.jackrabbit.api.security.user.UserManager;
@@ -30,8 +31,8 @@ import org.slf4j.LoggerFactory;
         service = ResourceChangeListener.class,
         immediate = true,
         property = {
-                "resource.paths=/content/dam/itc/marketing-campaign",
-                "resource.change.types=ADDED"
+                ResourceChangeListener.PATHS+"=/content/dam/itc/marketing-campaign",
+                ResourceChangeListener.CHANGES+"=ADDED"
         }
 )
 @ServiceDescription("Asset upload listener for /content/dam/itc/marketing-campaign")
@@ -68,9 +69,8 @@ public class CustomEventListener implements ResourceChangeListener {
                     logger.info("New asset uploaded at: {}", assetPath);
                     String fullAssetUrl = externalizer.authorLink(resolver, assetPath);
                     logger.info("Full asset URL: {}", fullAssetUrl);
-
                     String userId = change.getUserId();
-                    logger.info("User Id of User : {}", userId);
+                    logger.info("User Id of Uploader : {}", userId);
                     if (userId != null) {
                         UserManager userManager = resolver.adaptTo(UserManager.class);
                         if (userManager != null) {
@@ -80,7 +80,8 @@ public class CustomEventListener implements ResourceChangeListener {
 
                                 String groupNameFromPath = new CampaignPathParser(assetPath).getAgencyGroupName();
                                 while (groups.hasNext()) {
-                                    if(groupNameFromPath.equals(groups.next().getID())) {
+                                    String groupName = groups.next().getID();
+                                    if(groupNameFromPath.equals(groupName)) {
                                         assetNotificationService.notifyNewAsset(groupNameFromPath, fullAssetUrl, resolver);
                                         logger.info("Group Id of Agency Asset Uploader : {}", groupNameFromPath);
                                     }
