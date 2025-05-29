@@ -82,7 +82,7 @@ public class CustomEventListener implements ResourceChangeListener {
                                 while (groups.hasNext()) {
                                     String groupName = groups.next().getID();
                                     if(groupNameFromPath.equals(groupName)) {
-                                        assetNotificationService.notifyNewAsset(groupNameFromPath, fullAssetUrl, resolver);
+                                        assetNotificationService.notifyNewAsset(groupNameFromPath.replace("-agency-","-reviewer-"), fullAssetUrl, resolver);
                                         logger.info("Group Id of Agency Asset Uploader : {}", groupNameFromPath);
                                     }
                                 }
