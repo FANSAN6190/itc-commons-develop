@@ -1,9 +1,25 @@
 async function getCsrfToken() {
-  const response = await fetch('/libs/granite/csrf/token.json', {
-    credentials: 'same-origin'
-  });
-  const json = await response.json();
-  return json.token;
+  try {
+    const response = await fetch('/libs/granite/csrf/token.json', {
+      credentials: 'same-origin'
+    });
+    if (!response.ok) {
+      console.error("Failed to fetch CSRF token:", response.status);
+      return null;
+    }
+    const json = await response.json();
+    return json.token;
+  } catch (err) {
+    console.error("Error fetching CSRF token:", err);
+    return null;
+  }
+}
+
+function getDisplayFromKey(map, selectedKey) {
+  for (const display in map) {
+    if (map[display].value === selectedKey) return display;
+  }
+  return "";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -42,26 +58,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  const categoryMap = {};
-  for (const displayName in window.categoryBrandSubBrandMap) {
-    categoryMap[displayName] = window.categoryBrandSubBrandMap[displayName].value;
-  }
+  let dynamicCategoryBrandSubBrandMap = {};
+
+  fetch("/bin/populateDropdownMapping")
+    .then(res => res.json())
+    .then(data => {
+      dynamicCategoryBrandSubBrandMap = data;
+
+      const categoryMap = {};
+      for (const displayName in dynamicCategoryBrandSubBrandMap) {
+        categoryMap[displayName] = dynamicCategoryBrandSubBrandMap[displayName].value;
+      }
+      resetAndPopulate(category, categoryMap);
+    })
+    .catch(err => {
+      console.error("Error fetching category-brand-subBrand mapping:", err);
+    });
 
   resetAndPopulate(category, categoryMap);
 
   category.addEventListener("change", function () {
     const selectedCategoryKey = category.value;
-    let selectedCategoryDisplay = "";
-    for (const display in window.categoryBrandSubBrandMap) {
-      if (window.categoryBrandSubBrandMap[display].value === selectedCategoryKey) {
-        selectedCategoryDisplay = display;
-        break;
-      }
-    }
-
-    const categoryObj = window.categoryBrandSubBrandMap[selectedCategoryDisplay];
-    const brandsObj = categoryObj?.brands || {};
+    const selectedCategoryDisplay = getDisplayFromKey(dynamicCategoryBrandSubBrandMap, selectedCategoryKey);
+    const categoryObj = dynamicCategoryBrandSubBrandMap[selectedCategoryDisplay];
+    const brandsObj = categoryObj?.brand || {};
     const brandMap = {};
+
 
     for (const brandDisplay in brandsObj) {
       brandMap[brandDisplay] = brandsObj[brandDisplay].value;
@@ -75,27 +97,14 @@ document.addEventListener("DOMContentLoaded", function () {
   brand.addEventListener("change", function () {
     const selectedCategoryKey = category.value;
     const selectedBrandKey = brand.value;
+    const selectedCategoryDisplay = getDisplayFromKey(dynamicCategoryBrandSubBrandMap, selectedCategoryKey);
+    const categoryObj = dynamicCategoryBrandSubBrandMap[selectedCategoryDisplay];
 
-    let selectedCategoryDisplay = "";
-    for (const display in window.categoryBrandSubBrandMap) {
-      if (window.categoryBrandSubBrandMap[display].value === selectedCategoryKey) {
-        selectedCategoryDisplay = display;
-        break;
-      }
-    }
 
-    const categoryObj = window.categoryBrandSubBrandMap[selectedCategoryDisplay];
-    const brandsObj = categoryObj?.brands || {};
-    let selectedBrandDisplay = "";
+    const brandsObj = categoryObj?.brand || {};
+    const selectedBrandDisplay = getDisplayFromKey(brandsObj, selectedBrandKey);
 
-    for (const display in brandsObj) {
-      if (brandsObj[display].value === selectedBrandKey) {
-        selectedBrandDisplay = display;
-        break;
-      }
-    }
-
-    const subBrandsObj = brandsObj[selectedBrandDisplay]?.subBrands || {};
+    const subBrandsObj = brandsObj[selectedBrandDisplay]?.subBrand || {};
     const subBrandMap = {};
     for (const subBrandDisplay in subBrandsObj) {
       subBrandMap[subBrandDisplay] = subBrandsObj[subBrandDisplay];
@@ -140,6 +149,23 @@ form.addEventListener("submit", async function (e) {
 
   try {
     const csrfToken = await getCsrfToken();
+    const selectedCategoryKey = category.value;
+    const selectedBrandKey = brand.value;
+    const selectedSubBrandKey = subBrand.value;
+    const selectedCategoryDisplay = category.options[category.selectedIndex]?.dataset.display;
+    const selectedBrandDisplay = brand.options[brand.selectedIndex]?.dataset.display;
+    const selectedSubBrandDisplay = subBrand.options[subBrand.selectedIndex]?.dataset.display;
+    const formData = {
+      category: selectedCategoryKey,
+      categoryDisplay: selectedCategoryDisplay,
+      brand: selectedBrandKey,
+      brandDisplay: selectedBrandDisplay,
+      subBrand: selectedSubBrandKey,
+      subBrandDisplay: selectedSubBrandDisplay,
+      campaignName: campaignName.value,
+      campaignDescription: campaignDescription.value,
+      group: group.value
+    };
 
     const res = await fetch("/bin/groupdatasource", {
       method: "POST",
@@ -150,7 +176,7 @@ form.addEventListener("submit", async function (e) {
       },
       body: JSON.stringify(formData)
     });
-
+    
     const response = await res.json();
 
     if (!res.ok || response.error) {
@@ -196,5 +222,5 @@ form.addEventListener("submit", async function (e) {
     }, 2500);
   }
 });
-
 });
+
