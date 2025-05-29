@@ -7,7 +7,7 @@
         jcr:title_commentI18n="Capability Name"
         icon="asset"
         id="cq-initiate-asset"
-        href="/apps/itc-commons/asset-approval/initiateworkflow.html"
+        href="/content/asset-approval/initiateworkflow.html"
         order="{Long}1810">
     </initiate-asset>
     <tools/>

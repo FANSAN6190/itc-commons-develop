@@ -1,5 +1,6 @@
 package com.itc.commons.core.listener;
 
+import com.itc.commons.core.util.CampaignPathParser;
 import com.itc.commons.core.services.AssetRejectionService;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.Group;
@@ -25,7 +26,9 @@ import java.util.Map;
         property = {
                 ResourceChangeListener.PATHS + "=glob:/content/dam/itc/marketing-campaign/*/*/*/*/*/jcr:content",
                 ResourceChangeListener.CHANGES + "=CHANGED",
-                ResourceChangeListener.PROPERTY_NAMES_HINT + "=approval"
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=approval",
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=review",
+                ResourceChangeListener.PROPERTY_NAMES_HINT + "=sendto"
         })
 public class AssetAcceptRejectListener implements ResourceChangeListener {
 
@@ -33,6 +36,7 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
     AssetRejectionService assetRejectionService;
 
     @Reference
+
     ResourceResolverFactory resolverFactory;
 
     private static Logger log = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
@@ -46,7 +50,6 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
             for (ResourceChange change : changes) {
                 String userId = changes.get(0).getUserId();
                 log.info("User Id of Reviewer : {}", userId);
-                System.out.println("User Id of Reviewer : "+userId);
 
                 String groupName = null;
                 if (userId != null) {
@@ -55,43 +58,46 @@ public class AssetAcceptRejectListener implements ResourceChangeListener {
                         Authorizable user = userManager.getAuthorizable(userId);
                         if (user != null) {
                             Iterator<Group> groups = user.memberOf();
-                            groups.next();
-                            if (groups.hasNext()) {
-                                groupName = groups.next().getID();
-                                log.info("Group Id of Reviewer : {}", groupName);
-                                System.out.println("Group Id of Reviewer : "+groupName);
-
+                            String groupNameFromPath = new CampaignPathParser(changes.get(0).getPath()).getReviewerGroupName();
+                            while (groups.hasNext()) {
+                                if(groupNameFromPath.equals(groups.next().getID())) {
+                                    groupName = groupNameFromPath;
+                                    log.info("Group Id of Reviewer : {}", groupName);
+                                }
                             }
                         }
                     }
                 } else {
-                    throw new RuntimeException("Can not able to get User ID of reviewer");
+                    log.error("Can not able to get User ID of reviewer");
                 }
                 String path = change.getPath();
                 log.info("Asset Path : {}", path);
                 Resource resource = resourceResolver.getResource(path);
-                String status = null;
                 if (resource != null) {
-                    status = (String) resource.getValueMap().get("approval");
+                    String status = (String) resource.getValueMap().get("approval");
                     if(status.equals("reject")){
-                        assetRejectionService.handleAssetRejection(path,groupName,resourceResolver);
+                        String review = (String) resource.getValueMap().get("review");
+                        String sendTo = (String) resource.getValueMap().get("sendto");
+                        if(sendTo.equals("group")){
+                            assetRejectionService.handleAssetRejectionToGroup(path,review,resourceResolver, groupName);
+                        } else if(sendTo.equals("single")) {
+                            String userId_value = resource.getParent().getValueMap().get("jcr:createdBy").toString();
+                            assetRejectionService.handleAssetRejectionToUser(path,review,resourceResolver, userId_value);
+                        }
+
                     } else if(status.equals("accept")){
                         log.info("Asset Approved");
                     } else {
-                        throw new RuntimeException("Invalid field value for approval property");
+                        log.error("Invalid field value for approval property");
                     }
                 }
             }
         } catch (LoginException e) {
             log.error("Service User Error : {}", e.getMessage());
-            System.out.println("Service User Error : {}"+ e.getMessage());
         } catch (RepositoryException e){
             log.error("Error while handling Rejection service : {}", e.getMessage());
-            System.out.println("Error while handling Rejection service : "+e.getMessage());
         }catch (RuntimeException e) {
             log.error("Unknown Error Occurred : {}", e.getMessage());
-
-            System.out.println("Unknown Error Occurred"+e.getMessage());
         }
 
     }

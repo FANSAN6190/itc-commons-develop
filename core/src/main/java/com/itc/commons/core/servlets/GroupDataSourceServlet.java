@@ -9,15 +9,17 @@ import com.itc.commons.core.services.GroupService;
 
 import java.io.BufferedReader;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
 
-import com.itc.commons.core.services.MailService;
 import com.itc.commons.core.services.impl.DamHierarchyCreatorServiceImpl;
+import com.itc.commons.core.services.MailService;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.osgi.framework.Constants;
@@ -61,31 +63,11 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
      * @throws ServletException in case of servlet-level issues
      * @throws IOException if an input/output error occurs
      */
-    @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
 
-        try {
-            List<Map<String, String>> groups = groupService.fetchGroups(request.getResourceResolver());
-            writeJsonResponse(response, groups, HttpServletResponse.SC_OK);
-
-        } catch (RepositoryException e) {
-            LOG.error("Error while fetching group data: {}", e.getMessage(), e);
-            writeJsonResponse(response,
-                    Map.of("error", "Internal Server Error while fetching groups"),
-                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    /**
-     *
-     * @param request HTTP request to post form data
-     * @param response HTTP response after performing operation
-     * @throws IOException if an input/output error occurs
-     */
     @Override
     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 
-        LOG.info("Received POST request Form");
+        log.info("Received POST request Form");
 
         try (ResourceResolver resourceResolver = request.getResourceResolver()) {
 
@@ -101,31 +83,58 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
 
             Gson gson = new Gson();
             JsonObject jsonObject = gson.fromJson(jsonString, JsonObject.class);
+            String groupName = jsonObject.get("group").getAsString().toLowerCase();
+            log.info("Group name received: {}", groupName);
 
-            String[] damNodes = {jsonObject.get("category").getAsString(), jsonObject.get("brand").getAsString(), jsonObject.get("subBrand").getAsString(), jsonObject.get("campaignName").getAsString().toLowerCase().replace(" ", "-")};
+            if (!groupService.isValidAgencyGroup(groupName, resourceResolver)) {
+                log.warn("Group '{}' is not valid or does not exist.", groupName);
+                writeJsonResponse(response, Map.of("error", "This group "+groupName+ " doesn't exist, kindly create this group "), HttpServletResponse.SC_BAD_REQUEST);
+                return;
+            }
+
+
+
+            String category = jsonObject.get("category").getAsString();
+            String categoryDisplay = jsonObject.get("categoryDisplay").getAsString();
+            String brand = jsonObject.get("brand").getAsString();
+            String brandDisplay = jsonObject.get("brandDisplay").getAsString();
+            String subBrand = jsonObject.get("subBrand").getAsString();
+            String subBrandDisplay = jsonObject.get("subBrandDisplay").getAsString();
+            String campaignName = jsonObject.get("campaignName").getAsString();
+            String campaignDescription = jsonObject.get("campaignDescription").getAsString();
+            String group = jsonObject.get("group").getAsString();
+
+
+            String[] damNodes = {category, brand, subBrand, campaignName.toLowerCase().replace(" ", "-")};
             damHierarchyCreatorService.createNodeStructure(damNodes);
 
             String scheme = request.getScheme();
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
-            String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+
+            String path = "/assets.html/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", "Campaign for specific need");
+
             String finalPath = scheme + "://" + serverName + ":" + port + path;
 
-            String subject = "Add assets";
+            String subject = brandDisplay + " | " + campaignName + " Creative Request";
 
-            String message = "<p>Dear USER,</p>"
-                    .concat("<p>You are requested to add assets on the path given below:</p>")
-                    .concat("<p> ").concat(finalPath).concat("</p>")
-                    .concat("<p>Thank you<br/>AEM Asset Services</p>");
+            String message = "<p>Dear " + group + ",</p>"
+                    .concat("<p>Campaign request for " + campaignName + " has been created with below description:<br>")
+                    .concat(campaignDescription + "</p>")
+                    .concat("<p>Please upload the asset (once available) to following path:<br>")
+                    .concat("Asset Path: ").concat(finalPath).concat("</p>")
+                    .concat("<p>Regards,<br>Digital Asset Management System</p>");
 
-
-            try {
-                mailService.sendEmail(jsonObject.get("group").getAsString(), resourceResolver, message, subject);
-                writeJsonResponse(response, "Email sent to all users successfully", 200);
-            }
-            catch (MessagingException e) {
-                writeJsonResponse(response, e.getMessage(), 500);
-            }
+            mailService.sendEmail(group, resourceResolver, message, subject, true);
+            writeJsonResponse(response, "Email sent to all users successfully", 200);
+            log.info("Email sent to all users successfully");
+        } catch (LoginException | RepositoryException e) {
+            log.error("Failure in DAM Hierarchy creation service : {}", e.getMessage());
+            writeJsonResponse(response, e.getMessage(), 500);
+        } catch (MessagingException | UnsupportedEncodingException e) {
+            log.error("Email service not working : {}", e.getMessage());
+            writeJsonResponse(response, e.getMessage(), 500);
         }
     }
 

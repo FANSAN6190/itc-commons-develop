@@ -29,8 +29,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const subBrand = document.getElementById("subBrandSelect");
   const campaignName = document.getElementById("campaignName");
   const campaignDescription = document.getElementById("campaignDescription");
-  const group = document.getElementById("groupSelect");
+  const group = document.getElementById("groupDisplay");
+
   const resourcePath = document.querySelector(".group-form-container").dataset.resourcepath;
+
+  const loaderOverlay = document.querySelector(".loader-overlay");
+  const successOverlay = document.querySelector(".success-overlay");
+    const errorOverlay = document.querySelector(".error-overlay");
+  const formContainer = document.querySelector(".group-form-container");
 
   brand.disabled = true;
   subBrand.disabled = true;
@@ -69,19 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching category-brand-subBrand mapping:", err);
     });
 
-  fetch(resourcePath)
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(groupItem => {
-        const option = document.createElement("option");
-        option.value = groupItem.value;
-        option.text = groupItem.text;
-        group.appendChild(option);
-      });
-    })
-    .catch(err => {
-      console.error("Error loading groups:", err);
-    });
+  resetAndPopulate(category, categoryMap);
 
   category.addEventListener("change", function () {
     const selectedCategoryKey = category.value;
@@ -94,8 +88,10 @@ document.addEventListener("DOMContentLoaded", function () {
     for (const brandDisplay in brandsObj) {
       brandMap[brandDisplay] = brandsObj[brandDisplay].value;
     }
+
     resetAndPopulate(brand, brandMap);
     resetAndPopulate(subBrand, {});
+    group.value = "";
   });
 
   brand.addEventListener("change", function () {
@@ -103,6 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const selectedBrandKey = brand.value;
     const selectedCategoryDisplay = getDisplayFromKey(dynamicCategoryBrandSubBrandMap, selectedCategoryKey);
     const categoryObj = dynamicCategoryBrandSubBrandMap[selectedCategoryDisplay];
+
 
     const brandsObj = categoryObj?.brand || {};
     const selectedBrandDisplay = getDisplayFromKey(brandsObj, selectedBrandKey);
@@ -112,14 +109,46 @@ document.addEventListener("DOMContentLoaded", function () {
     for (const subBrandDisplay in subBrandsObj) {
       subBrandMap[subBrandDisplay] = subBrandsObj[subBrandDisplay];
     }
+
     resetAndPopulate(subBrand, subBrandMap);
+
+    if (selectedCategoryDisplay && selectedBrandDisplay) {
+      group.value = `${selectedCategoryKey}-${selectedBrandKey}-agency-group`;
+    } else {
+      group.value = "";
+    }
   });
 
-  form.addEventListener("submit", async function (e) {
-    e.preventDefault();
-    const loader = document.querySelector(".loader");
-    loader.classList.remove("hidden");
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
 
+  successOverlay.classList.remove("show");
+  errorOverlay.classList.remove("show");
+
+  loaderOverlay.classList.add("active");
+  formContainer.classList.add("blur");
+
+  const selectedCategoryKey = category.value;
+  const selectedBrandKey = brand.value;
+  const selectedSubBrandKey = subBrand.value;
+  const selectedCategoryDisplay = category.options[category.selectedIndex]?.dataset.display;
+  const selectedBrandDisplay = brand.options[brand.selectedIndex]?.dataset.display;
+  const selectedSubBrandDisplay = subBrand.options[subBrand.selectedIndex]?.dataset.display;
+
+  const formData = {
+    category: selectedCategoryKey,
+    categoryDisplay: selectedCategoryDisplay,
+    brand: selectedBrandKey,
+    brandDisplay: selectedBrandDisplay,
+    subBrand: selectedSubBrandKey,
+    subBrandDisplay: selectedSubBrandDisplay,
+    campaignName: campaignName.value,
+    campaignDescription: campaignDescription.value,
+    group: group.value
+  };
+
+  try {
+    const csrfToken = await getCsrfToken();
     const selectedCategoryKey = category.value;
     const selectedBrandKey = brand.value;
     const selectedSubBrandKey = subBrand.value;
@@ -138,34 +167,60 @@ document.addEventListener("DOMContentLoaded", function () {
       group: group.value
     };
 
-    const csrfToken = await getCsrfToken();
+    const res = await fetch("/bin/groupdatasource", {
+      method: "POST",
+      credentials: 'same-origin',
+      headers: {
+        "Content-Type": "application/json",
+        "CSRF-Token": csrfToken
+      },
+      body: JSON.stringify(formData)
+    });
+    
+    const response = await res.json();
 
-    try {
-      const res = await fetch("/bin/groupdatasource", {
-        method: "POST",
-        credentials: 'same-origin',
-        headers: {
-          "Content-Type": "application/json",
-          'CSRF-Token': csrfToken
-        },
-        body: JSON.stringify(formData)
-      });
+    if (!res.ok || response.error) {
+      loaderOverlay.classList.remove("active");
+      formContainer.classList.remove("blur");
 
-      if (!res.ok) throw new Error("Network response was not ok");
+      errorOverlay.querySelector(".error-message").textContent =
+        response.error || "There was an error submitting the form.";
+      errorOverlay.classList.add("show");
 
-      const response = await res.json();
-      alert("Form submitted successfully!");
-      console.log("Success:", response);
-      form.reset();
-      brand.disabled = true;
-      subBrand.disabled = true;
+      setTimeout(() => {
+        errorOverlay.classList.remove("show");
+      }, 2500);
 
-    } catch (error) {
-      console.error("Submission error:", error);
-      alert("There was an error submitting the form.");
-    } finally {
-      loader.classList.add("hidden");
+      return;
     }
-  });
+
+    loaderOverlay.classList.remove("active");
+    successOverlay.classList.add("show");
+
+    setTimeout(() => {
+      successOverlay.classList.remove("show");
+      formContainer.classList.remove("blur");
+    }, 2000);
+
+    form.reset();
+    brand.disabled = true;
+    subBrand.disabled = true;
+    group.value = "";
+
+  } catch (error) {
+    console.error("Submission error:", error);
+
+    loaderOverlay.classList.remove("active");
+    formContainer.classList.remove("blur");
+
+    errorOverlay.querySelector(".error-message").textContent =
+      "There was an error submitting the form.";
+    errorOverlay.classList.add("show");
+
+    setTimeout(() => {
+      errorOverlay.classList.remove("show");
+    }, 2500);
+  }
+});
 });
 

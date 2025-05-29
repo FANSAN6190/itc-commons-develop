@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.itc.commons.core.util.CampaignPathParser;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 import org.apache.jackrabbit.api.security.user.Group;
 import org.apache.jackrabbit.api.security.user.UserManager;
@@ -30,8 +31,8 @@ import org.slf4j.LoggerFactory;
         service = ResourceChangeListener.class,
         immediate = true,
         property = {
-                "resource.paths=/content/dam/itc/marketing-campaign",
-                "resource.change.types=ADDED"
+                ResourceChangeListener.PATHS+"=/content/dam/itc/marketing-campaign",
+                ResourceChangeListener.CHANGES+"=ADDED"
         }
 )
 @ServiceDescription("Asset upload listener for /content/dam/itc/marketing-campaign")
@@ -42,7 +43,7 @@ public class CustomEventListener implements ResourceChangeListener {
     @Reference
     private AssetNotificationService assetNotificationService;
 
-    private static final Logger logger = LoggerFactory.getLogger(AssetAcceptRejectListener.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomEventListener.class);
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
@@ -54,7 +55,7 @@ public class CustomEventListener implements ResourceChangeListener {
 
     @Override
     public void onChange(List<ResourceChange> changes) {
-        reviewerMap.put("itc_asset_agency_group_1","itc_asset_reviewer_group_1");
+        reviewerMap.put("Biscuits-Sunfeast-agency-group","Biscuits-Sunfeast-reviewer-group");
         Map<String, Object> params = new HashMap<>();
         params.put(ResourceResolverFactory.SUBSERVICE, SUBSERVICE_NAME);
 
@@ -68,20 +69,22 @@ public class CustomEventListener implements ResourceChangeListener {
                     logger.info("New asset uploaded at: {}", assetPath);
                     String fullAssetUrl = externalizer.authorLink(resolver, assetPath);
                     logger.info("Full asset URL: {}", fullAssetUrl);
-
                     String userId = change.getUserId();
-                    logger.info("User Id of User : {}", userId);
+                    logger.info("User Id of Uploader : {}", userId);
                     if (userId != null) {
                         UserManager userManager = resolver.adaptTo(UserManager.class);
                         if (userManager != null) {
                             Authorizable user = userManager.getAuthorizable(userId);
                             if (user != null) {
                                 Iterator<Group> groups = user.memberOf();
-                                groups.next();
-                                if (groups.hasNext()) {
-                                    String reviewerGroupName = reviewerMap.get(groups.next().getID());
-                                    logger.info("Reviewer Group ID : {}", reviewerGroupName);
-                                    assetNotificationService.notifyNewAsset(reviewerGroupName, fullAssetUrl, resolver);
+
+                                String groupNameFromPath = new CampaignPathParser(assetPath).getAgencyGroupName();
+                                while (groups.hasNext()) {
+                                    String groupName = groups.next().getID();
+                                    if(groupNameFromPath.equals(groupName)) {
+                                        assetNotificationService.notifyNewAsset(groupNameFromPath.replace("-agency-","-reviewer-"), fullAssetUrl, resolver);
+                                        logger.info("Group Id of Agency Asset Uploader : {}", groupNameFromPath);
+                                    }
                                 }
                             }
                         }

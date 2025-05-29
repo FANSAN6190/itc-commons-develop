@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:sling="http://sling.apache.org/jcr/sling/1.0"
+    jcr:primaryType="sling:Folder">
+    <items jcr:primaryType="nt:unstructured">
+        <tabs
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/tabs"
+            size="L">
+            <items jcr:primaryType="nt:unstructured">
+                <tab1/>
+                <tab2/>
+                <tab3/>
+                <tab4/>
+                <tab5/>
+                <tab6
+                    granite:rel="aem-assets-metadata-form-tab"
+                    jcr:primaryType="nt:unstructured"
+                    jcr:title="Asset Approval"
+                    sling:resourceType="granite/ui/components/coral/foundation/container"
+                    listOrder="5">
+                    <granite:data
+                        jcr:primaryType="nt:unstructured"
+                        tabid="3c6ef77f-5c38-4af4-8b6e-c742b6d4d61c"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <col1
+                            granite:rel="aem-assets-metadata-form-column"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            listOrder="0"
+                            oice-options="on">
+                            <items jcr:primaryType="nt:unstructured">
+                                <_x0031_748409483128
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/components/admin/schemafield"
+                                    emptyText="Select Option"
+                                    fieldLabel="Accept or Reject Asset"
+                                    name="./jcr:content/approval"
+                                    resourceType="dam/gui/coral/components/admin/schemaforms/formbuilder/formfields/v2/metadataselect">
+                                    <granite:data
+                                        jcr:primaryType="nt:unstructured"
+                                        choicesCascading="default"
+                                        cq-msm-lockable="./approval"
+                                        metaType="dropdown"
+                                        requiredCascading="default"
+                                        visibilityCascading="default"/>
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <_x0031_748409638849
+                                            jcr:primaryType="nt:unstructured"
+                                            text="Accept Asset"
+                                            value="accept"/>
+                                        <_x0031_748409906060
+                                            jcr:primaryType="nt:unstructured"
+                                            text="Reject Asset"
+                                            value="reject"/>
+                                    </items>
+                                    <cascadeitems
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="dam/gui/coral/components/admin/schemaforms/formbuilder/cascadeitems"/>
+                                </_x0031_748409483128>
+                                <_x0031_748409976321
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/components/admin/schemafield"
+                                    emptyText="Reason for rejection of asset"
+                                    fieldLabel="Review"
+                                    name="./jcr:content/review"
+                                    resourceType="granite/ui/components/coral/foundation/form/textarea">
+                                    <granite:data
+                                        jcr:primaryType="nt:unstructured"
+                                        cascadeRequiredFrom="./jcr:content/approval"
+                                        cascadeRequiredValueSet="reject"
+                                        cascadeVisibilityFrom="./jcr:content/approval"
+                                        cascadeVisibilityValueSet="reject"
+                                        cq-msm-lockable="./review"
+                                        metaType="textarea"
+                                        requiredCascading="ruleBased"
+                                        visibilityCascading="ruleBased"/>
+                                </_x0031_748409976321>
+                                <_x0031_748410227856
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="dam/gui/components/admin/schemafield"
+                                    emptyText="Select Option"
+                                    fieldLabel="Send Response to:"
+                                    name="./jcr:content/sendto"
+                                    resourceType="dam/gui/coral/components/admin/schemaforms/formbuilder/formfields/v2/metadataselect">
+                                    <granite:data
+                                        jcr:primaryType="nt:unstructured"
+                                        cascadeRequiredFrom="./jcr:content/approval"
+                                        cascadeRequiredValueSet="reject"
+                                        cascadeVisibilityFrom="./jcr:content/approval"
+                                        cascadeVisibilityValueSet="reject"
+                                        choicesCascading="default"
+                                        cq-msm-lockable="./sendto"
+                                        metaType="dropdown"
+                                        requiredCascading="ruleBased"
+                                        visibilityCascading="ruleBased"/>
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <_x0031_748410301898
+                                            jcr:primaryType="nt:unstructured"
+                                            text="Asset uploader only"
+                                            value="single"/>
+                                        <_x0031_748410307149
+                                            jcr:primaryType="nt:unstructured"
+                                            text="All group members"
+                                            value="group"/>
+                                    </items>
+                                    <cascadeitems
+                                        jcr:primaryType="nt:unstructured"
+                                        sling:resourceType="dam/gui/coral/components/admin/schemaforms/formbuilder/cascadeitems"/>
+                                </_x0031_748410227856>
+                            </items>
+                            <jcr:content jcr:primaryType="nt:unstructured"/>
+                        </col1>
+                        <col2
+                            granite:rel="aem-assets-metadata-form-column"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            listOrder="1"/>
+                        <col3
+                            granite:rel="aem-assets-metadata-form-column"
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/container"
+                            listOrder="2"/>
+                    </items>
+                </tab6>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>

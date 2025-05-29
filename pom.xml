@@ -516,6 +516,7 @@ Bundle-DocURL:
   <!-- ====================================================================== -->
   <dependencyManagement>
     <dependencies>
+
       <dependency>
         <groupId>com.adobe.aem</groupId>
         <artifactId>aem-sdk-api</artifactId>
