@@ -4,15 +4,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.itc.commons.core.services.S3FileUploadService;
 import com.itc.commons.core.sling.models.GenericFormFieldsModel;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Map;
-import java.util.Objects;
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -23,6 +14,14 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.itc.commons.core.utils.GsonUtil.GSON;
 import static org.apache.sling.api.servlets.ServletResolverConstants.*;

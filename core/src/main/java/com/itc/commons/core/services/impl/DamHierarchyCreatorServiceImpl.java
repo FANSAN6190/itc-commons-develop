@@ -1,7 +1,7 @@
 package com.itc.commons.core.services.impl;
 
-import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Activate;
@@ -9,11 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import java.nio.file.Path;
+
+import javax.jcr.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +31,7 @@ public class DamHierarchyCreatorServiceImpl {
     @Activate
     public void activate(){
         try {
-            Session session =initSession();
+            Session session = getResoruceResolver().adaptTo(Session.class);
             if(session!=null) {
                 createNodeStructure(nodesInStructure);
                 PARENT_NODE_PATH= PARENT_NODE_PATH+"/"+nodesInStructure[0]+"/"+nodesInStructure[1];
@@ -46,11 +43,11 @@ public class DamHierarchyCreatorServiceImpl {
         }
     }
 
-    private Session initSession() throws LoginException {
+    private ResourceResolver getResoruceResolver() throws LoginException {
         Map<String, Object> authInfo = new HashMap<>();
         authInfo.put(ResourceResolverFactory.SUBSERVICE, "asset-approval-service-user");
         ResourceResolver resourceResolver = resolverFactory.getServiceResourceResolver(authInfo);
-        return resourceResolver.adaptTo(Session.class);
+        return resourceResolver;
     }
 
 
@@ -62,7 +59,7 @@ public class DamHierarchyCreatorServiceImpl {
      */
     public void createNodeStructure(String[] nodes) throws RepositoryException, LoginException {
         try {
-            Session session = initSession();
+            Session session = getResoruceResolver().adaptTo(Session.class);
             Node parentNode = session.getNode(PARENT_NODE_PATH);
             for (String node : nodes) {
                 parentNode = createDamNode(parentNode, node, "sling:Folder");
@@ -97,7 +94,7 @@ public class DamHierarchyCreatorServiceImpl {
      */
     public void setNodeProperty(String nodePath, String propertyName, String propertyValue){
         try {
-            Session session = initSession();
+            Session session = getResoruceResolver().adaptTo(Session.class);
             Node node = session.getNode(nodePath);
             node.setProperty(propertyName,propertyValue);
             log.info("property '{}' added successfully", propertyName);
@@ -108,4 +105,17 @@ public class DamHierarchyCreatorServiceImpl {
             log.error("Error while setting property : {}",e.getMessage());
         }
     }
+
+    public String getNodeProperty(String nodePath, String propertyName){
+        String propertyValue = null;
+        try {
+            ResourceResolver resourceResolver = getResoruceResolver();
+            propertyValue =  resourceResolver.getResource(nodePath).getValueMap().get(propertyName).toString();
+            log.info("property value : {}", propertyValue);
+        } catch (LoginException e) {
+            log.error("Error while getting session : {}",e.getMessage());
+        }
+        return propertyValue;
+    }
+
 }

@@ -1,21 +1,9 @@
 package com.itc.commons.core.servlets;
 
-import static com.itc.commons.core.constants.ApplicationConstants.CHARACTER_ENCODING_UTF_8;
-import static com.itc.commons.core.constants.ApplicationConstants.CONTENT_TYPE_APPLICATION_JSON;
-import static org.apache.sling.api.servlets.HttpConstants.METHOD_POST;
-import static org.apache.sling.api.servlets.ServletResolverConstants.SLING_SERVLET_EXTENSIONS;
-import static org.apache.sling.api.servlets.ServletResolverConstants.SLING_SERVLET_METHODS;
-import static org.apache.sling.api.servlets.ServletResolverConstants.SLING_SERVLET_RESOURCE_TYPES;
-import static org.apache.sling.api.servlets.ServletResolverConstants.SLING_SERVLET_SELECTORS;
-
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.itc.commons.core.services.RecaptchaService;
-import java.io.BufferedReader;
-import java.io.IOException;
-import javax.servlet.Servlet;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -25,6 +13,16 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.servlet.Servlet;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
+import java.io.IOException;
+
+import static com.itc.commons.core.constants.ApplicationConstants.CHARACTER_ENCODING_UTF_8;
+import static com.itc.commons.core.constants.ApplicationConstants.CONTENT_TYPE_APPLICATION_JSON;
+import static org.apache.sling.api.servlets.HttpConstants.METHOD_POST;
+import static org.apache.sling.api.servlets.ServletResolverConstants.*;
 
 @Component(service = Servlet.class, property = {
   Constants.SERVICE_DESCRIPTION + "= Recaptcha Verification Servlet",

@@ -1,18 +1,18 @@
 package com.itc.commons.core.services.impl;
 
-import com.itc.commons.core.listener.AssetAcceptRejectListener;
+import com.day.cq.commons.Externalizer;
 import com.itc.commons.core.services.AssetNotificationService;
 
 import javax.mail.MessagingException;
 
 import com.itc.commons.core.services.MailService;
+import com.itc.commons.core.utils.CampaignPathParser;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.UnsupportedEncodingException;
 
 @Component(service = AssetNotificationService.class, immediate = true)
 public class AssetNotificationServiceImpl implements AssetNotificationService {
@@ -22,6 +22,12 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
   @Reference
   private MailService mailService;
 
+  @Reference
+  private DamHierarchyCreatorServiceImpl damHierarchyCreatorService;
+
+  @Reference
+  private Externalizer externalizer;
+
   @Override
   public void notifyNewAsset(String reviewerGroupName, String assetPath, ResourceResolver resourceResolver) {
     if (assetPath == null || resourceResolver == null) {
@@ -29,9 +35,16 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
       return;
     }
 
+    String fullAssetUrl = externalizer.authorLink(resourceResolver, "/assets.html"+assetPath); // add assets.html to path
+    LOGGER.info("Full asset URL: {}", fullAssetUrl);
+
+    CampaignPathParser campaignPathParser = new CampaignPathParser(assetPath);
     String message = "<p>Dear Reviewer,</p>"
-            + "<p>A new asset has been uploaded and is pending for review:</p>"
-            + "<p><strong>Asset Path:</strong> " + assetPath + "</p>"
+            + "<p>A new asset has been uploaded and is pending for review with below campaign details</p>"
+            +"<p>Campaign request for "+campaignPathParser.getCampaign()+ " has been created with below description:<br>"
+            + damHierarchyCreatorService.getNodeProperty(assetPath.substring(0, assetPath.lastIndexOf('/')),"campaignDescription")
+            +"</p><p>Please upload the asset (once available) to following path:<br>"
+            + "<strong>Asset Path:</strong> " + fullAssetUrl + "</p>"
             + "<p>Regards,<br/>Digital Asset Management System</p>";
 
     String subject = "New Asset Uploaded Notification";
