@@ -1,14 +1,19 @@
 package com.itc.commons.core.services.impl;
 
 import com.itc.commons.core.services.AssetNotificationService;
+
+import javax.mail.MessagingException;
+
 import com.itc.commons.core.services.MailService;
+import com.itc.commons.core.utils.CampaignPathParser;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
+
 
 @Component(service = AssetNotificationService.class, immediate = true)
 public class AssetNotificationServiceImpl implements AssetNotificationService {
@@ -18,6 +23,9 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
   @Reference
   private MailService mailService;
 
+  @Reference
+  private DamHierarchyCreatorServiceImpl damHierarchyCreatorService;
+
   @Override
   public void notifyNewAsset(String reviewerGroupName, String assetPath, ResourceResolver resourceResolver) {
     if (assetPath == null || resourceResolver == null) {
@@ -25,10 +33,14 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
       return;
     }
 
-    String message = "<p>Dear " + reviewerGroupName + ",</p>"
-            + "<p>A new asset has been uploaded and is pending for review:<br>"
-            + "<strong>Asset Path:</strong> " + assetPath + "</p>"
-            + "<p>Regards,<br>Digital Asset Management System</p>";
+    CampaignPathParser campaignPathParser = new CampaignPathParser(assetPath);
+    String message = "<p>Dear Reviewer,</p>"
+            + "<p>A new asset has been uploaded and is pending for review with below campaign details</p>"
+            +"<p>Campaign request for "+campaignPathParser.getCampaign()+ " has been created with below description:</p>"
+            + damHierarchyCreatorService.getNodeProperty(assetPath,"campaignDescription")
+            +"Please upload the asset (once available) to followibng path:"
+            + "<p><strong>Asset Path:</strong> " + assetPath + "</p>"
+            + "<p>Regards,<br/>Digital Asset Management System</p>";
 
     String subject = "New Asset Uploaded Notification";
 

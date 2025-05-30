@@ -1,6 +1,7 @@
 package com.itc.commons.core.services.impl;
 
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Activate;
@@ -107,4 +108,20 @@ public class DamHierarchyCreatorServiceImpl {
             log.error("Error while setting property : {}",e.getMessage());
         }
     }
+
+    public String getNodeProperty(String nodePath, String propertyName){
+        String propertyValue = null;
+        try {
+            Session session = initSession();
+            Node node = session.getNode(nodePath);
+            propertyValue = node.getProperty(propertyName).getString();
+            log.info("property value : {}", propertyValue);
+        } catch (LoginException e) {
+            log.error("Error while getting session : {}",e.getMessage());
+        } catch (RepositoryException e) {
+            log.error("Error while getting property : {}",e.getMessage());
+        }
+        return propertyValue;
+    }
+
 }
