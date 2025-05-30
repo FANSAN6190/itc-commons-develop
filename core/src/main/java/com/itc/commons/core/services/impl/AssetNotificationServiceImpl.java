@@ -42,8 +42,8 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
     String message = "<p>Dear Reviewer,</p>"
             + "<p>A new asset has been uploaded and is pending for review with below campaign details</p>"
             +"<p>Campaign request for "+campaignPathParser.getCampaign()+ " has been created with below description:<br>"
-            + damHierarchyCreatorService.getNodeProperty(assetPath,"campaignDescription")
-            +"</p><p>Please upload the asset (once available) to following path:"
+            + damHierarchyCreatorService.getNodeProperty(assetPath.substring(0, assetPath.lastIndexOf('/')),"campaignDescription")
+            +"</p><p>Please upload the asset (once available) to following path:<br>"
             + "<strong>Asset Path:</strong> " + fullAssetUrl + "</p>"
             + "<p>Regards,<br/>Digital Asset Management System</p>";
 
