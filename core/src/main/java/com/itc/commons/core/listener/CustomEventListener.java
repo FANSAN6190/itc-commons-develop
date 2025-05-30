@@ -48,8 +48,6 @@ public class CustomEventListener implements ResourceChangeListener {
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
 
-    @Reference
-    private Externalizer externalizer;
 
     private static final String SUBSERVICE_NAME = "asset-approval-service-user";
 
@@ -65,8 +63,6 @@ public class CustomEventListener implements ResourceChangeListener {
                 String assetPath = change.getPath().replaceAll("/jcr:content.*", "");
 
                 logger.info("New asset uploaded at: {}", assetPath);
-                String fullAssetUrl = externalizer.authorLink(resolver, "/assets.html"+assetPath); // add assets.html to path
-                logger.info("Full asset URL: {}", fullAssetUrl);
                 String userId = change.getUserId();
                 logger.info("User Id of Uploader : {}", userId);
                 if (userId != null) {
@@ -80,7 +76,7 @@ public class CustomEventListener implements ResourceChangeListener {
                             while (groups.hasNext()) {
                                 String groupName = groups.next().getID();
                                 if (groupNameFromPath.equals(groupName)) {
-                                    assetNotificationService.notifyNewAsset(groupNameFromPath.replace("-agency-", "-reviewer-"), fullAssetUrl, resolver);
+                                    assetNotificationService.notifyNewAsset(groupNameFromPath.replace("-agency-", "-reviewer-"), assetPath, resolver);
                                     logger.info("Group Id of Agency Asset Uploader : {}", groupNameFromPath);
                                 }
                             }

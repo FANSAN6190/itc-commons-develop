@@ -102,9 +102,9 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     public void handleAssetRejectionToGroup(String assetPath, String campaignDescription, ResourceResolver resolver, String reviewerGroup) throws RepositoryException {
         propertyCheck(assetPath,resolver,reviewerGroup);
         String CleanedPath = assetPath.replace("/jcr:content", "");
-        String AssetCleanedPath = "/assets.html".concat(CleanedPath);
 
-        CampaignPathParser campaignPathParser=new CampaignPathParser(AssetCleanedPath);
+        CampaignPathParser campaignPathParser=new CampaignPathParser(CleanedPath);
+        String AssetCleanedPath = "/assets.html".concat(CleanedPath);
         String brandName=campaignPathParser.getBrand();
         String campaignName=campaignPathParser.getCampaign();
 
@@ -136,11 +136,12 @@ public class AssetRejectionServiceImpl implements AssetRejectionService {
     public void handleAssetRejectionToUser(String assetPath, String campaignDescription, ResourceResolver resolver,String agencyUser) throws RepositoryException {
 
         String CleanedPath = assetPath.replace("/jcr:content", "");
-        String AssetCleanedPath = "/assets.html".concat(CleanedPath);
 
-        CampaignPathParser campaignPathParser=new CampaignPathParser(AssetCleanedPath);
+        CampaignPathParser campaignPathParser=new CampaignPathParser(CleanedPath);
         String brandName=campaignPathParser.getBrand();
         String campaignName=campaignPathParser.getCampaign();
+
+        String AssetCleanedPath = "/assets.html".concat(CleanedPath);
 
         String EMAIL_SUBJECT_REJECTION = brandName.concat(" | ").concat(campaignName).concat(" creative Request Rejected");
 

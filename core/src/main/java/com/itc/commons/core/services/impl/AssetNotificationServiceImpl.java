@@ -1,5 +1,6 @@
 package com.itc.commons.core.services.impl;
 
+import com.day.cq.commons.Externalizer;
 import com.itc.commons.core.services.AssetNotificationService;
 
 import javax.mail.MessagingException;
@@ -11,8 +12,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.UnsupportedEncodingException;
 
 
 @Component(service = AssetNotificationService.class, immediate = true)
@@ -26,6 +25,9 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
   @Reference
   private DamHierarchyCreatorServiceImpl damHierarchyCreatorService;
 
+  @Reference
+  private Externalizer externalizer;
+
   @Override
   public void notifyNewAsset(String reviewerGroupName, String assetPath, ResourceResolver resourceResolver) {
     if (assetPath == null || resourceResolver == null) {
@@ -33,13 +35,16 @@ public class AssetNotificationServiceImpl implements AssetNotificationService {
       return;
     }
 
+    String fullAssetUrl = externalizer.authorLink(resourceResolver, "/assets.html"+assetPath); // add assets.html to path
+    LOGGER.info("Full asset URL: {}", fullAssetUrl);
+
     CampaignPathParser campaignPathParser = new CampaignPathParser(assetPath);
     String message = "<p>Dear Reviewer,</p>"
             + "<p>A new asset has been uploaded and is pending for review with below campaign details</p>"
-            +"<p>Campaign request for "+campaignPathParser.getCampaign()+ " has been created with below description:</p>"
+            +"<p>Campaign request for "+campaignPathParser.getCampaign()+ " has been created with below description:<br>"
             + damHierarchyCreatorService.getNodeProperty(assetPath,"campaignDescription")
-            +"Please upload the asset (once available) to followibng path:"
-            + "<p><strong>Asset Path:</strong> " + assetPath + "</p>"
+            +"</p><p>Please upload the asset (once available) to following path:"
+            + "<strong>Asset Path:</strong> " + fullAssetUrl + "</p>"
             + "<p>Regards,<br/>Digital Asset Management System</p>";
 
     String subject = "New Asset Uploaded Notification";
