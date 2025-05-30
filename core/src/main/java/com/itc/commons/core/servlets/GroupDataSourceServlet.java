@@ -1,20 +1,14 @@
 package com.itc.commons.core.servlets;
 
-import static com.adobe.granite.rest.Constants.CT_JSON;
-import static com.itc.commons.core.utils.GsonUtil.GSON;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.itc.commons.core.services.GroupService;
-
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletResponse;
-
 import com.itc.commons.core.services.impl.DamHierarchyCreatorServiceImpl;
 import com.itc.commons.core.services.MailService;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -27,11 +21,12 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.jcr.RepositoryException;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import java.io.IOException;
+import static com.adobe.granite.rest.Constants.CT_JSON;
+import static com.itc.commons.core.utils.GsonUtil.GSON;
 
 /**
  * Return fetched groups as a JSON response
@@ -112,10 +107,10 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
             String serverName = request.getServerName();
             String port = String.valueOf((request.getServerPort()));
 
-            String path = "/assets.html/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
-            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", "Campaign for specific need");
+            String path = "/content/dam/itc/marketing-campaign/" + damNodes[0] + "/" + damNodes[1] + "/" + damNodes[2] + "/" + damNodes[3];
+            damHierarchyCreatorService.setNodeProperty(path,"campaignDescription", campaignDescription);
 
-            String finalPath = scheme + "://" + serverName + ":" + port + path;
+            String finalPath = scheme + "://" + serverName + ":" + port + "/assets.html" + path;
 
             String subject = brandDisplay + " | " + campaignName + " Creative Request";
 
@@ -123,7 +118,7 @@ public class GroupDataSourceServlet extends SlingAllMethodsServlet {
                     .concat("<p>Campaign request for " + campaignName + " has been created with below description:<br>")
                     .concat(campaignDescription + "</p>")
                     .concat("<p>Please upload the asset (once available) to following path:<br>")
-                    .concat("Asset Path: ").concat(finalPath).concat("</p>")
+                    .concat("<strong>Asset Path:</strong> ").concat(finalPath).concat("</p>")
                     .concat("<p>Regards,<br>Digital Asset Management System</p>");
 
             mailService.sendEmail(group, resourceResolver, message, subject, true);

@@ -1,7 +1,7 @@
 package com.itc.commons.core.services.impl;
 
-import com.itc.commons.core.listener.AssetAcceptRejectListener;
 import org.apache.sling.api.resource.LoginException;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.osgi.service.component.annotations.Activate;
@@ -9,11 +9,8 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import java.nio.file.Path;
+
+import javax.jcr.*;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,4 +105,20 @@ public class DamHierarchyCreatorServiceImpl {
             log.error("Error while setting property : {}",e.getMessage());
         }
     }
+
+    public String getNodeProperty(String nodePath, String propertyName){
+        String propertyValue = null;
+        try {
+            Session session = initSession();
+            Node node = session.getNode(nodePath);
+            propertyValue = node.getProperty(propertyName).getString();
+            log.info("property value : {}", propertyValue);
+        } catch (LoginException e) {
+            log.error("Error while getting session : {}",e.getMessage());
+        } catch (RepositoryException e) {
+            log.error("Error while getting property : {}",e.getMessage());
+        }
+        return propertyValue;
+    }
+
 }

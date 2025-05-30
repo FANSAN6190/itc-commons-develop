@@ -8,10 +8,10 @@ public class CampaignPathParser {
 
     public CampaignPathParser(String assetPath) {
         String[] parts = assetPath.split("/");
-        if (parts.length >= 8) {
-            this.brand = parts[5];
-            this.subBrand = parts[6];
-            this.campaign = parts[7];
+        if (parts.length >= 9) {
+            this.brand = parts[6];
+            this.subBrand = parts[7];
+            this.campaign = parts[8];
         } else {
             this.brand = "";
             this.subBrand = "";
